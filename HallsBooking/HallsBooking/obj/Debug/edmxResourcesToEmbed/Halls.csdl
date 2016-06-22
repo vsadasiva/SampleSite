@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SampleModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="SampleEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="BookingDetails" EntityType="SampleModel.BookingDetail" />
+    <EntitySet Name="Cities" EntityType="SampleModel.City" />
+    <EntitySet Name="Countries" EntityType="SampleModel.Country" />
+    <EntitySet Name="Halls" EntityType="SampleModel.Hall" />
+    <EntitySet Name="States" EntityType="SampleModel.State" />
+    <EntitySet Name="Users" EntityType="SampleModel.User" />
+  </EntityContainer>
+  <EntityType Name="BookingDetail">
+    <Key>
+      <PropertyRef Name="BookingId" />
+    </Key>
+    <Property Name="BookingId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="HallId" Type="Int32" />
+    <Property Name="HallName" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="FunctionType" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Decaration" Type="Boolean" />
+    <Property Name="ValidFrom" Type="DateTime" Precision="3" />
+    <Property Name="ValidTo" Type="DateTime" Precision="3" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="UserName" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="BookedOn" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="CityId" />
+    </Key>
+    <Property Name="CityId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CityName" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="StateId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="CountryId" />
+    </Key>
+    <Property Name="CountryId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryName" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Hall">
+    <Key>
+      <PropertyRef Name="HallId" />
+    </Key>
+    <Property Name="HallId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="HallName" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="Country" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="State" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="City" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="LandMark" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="UserName" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="PinCode" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="Mobile" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="Phone" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="CostWithDecaration" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CostWithOutDecaration" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="State">
+    <Key>
+      <PropertyRef Name="StateId" />
+    </Key>
+    <Property Name="StateId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="StateName" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="CountryId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="RegId" />
+    </Key>
+    <Property Name="RegId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="LastName" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Password" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
+    <Property Name="ConfirmPassword" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Email" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Mobile" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Country" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="State" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="City" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Pincode" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="AgentorMember" Type="String" MaxLength="10" Unicode="false" FixedLength="true" />
+    <Property Name="IsActive" Type="Boolean" />
+  </EntityType>
+</Schema>

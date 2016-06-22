@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SampleModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="SampleModelStoreContainer">
+    <EntitySet Name="BookingDetails" EntityType="SampleModel.Store.BookingDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Cities" EntityType="SampleModel.Store.Cities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Countries" EntityType="SampleModel.Store.Countries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Halls" EntityType="SampleModel.Store.Halls" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="States" EntityType="SampleModel.Store.States" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="SampleModel.Store.Users" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="BookingDetails">
+    <Key>
+      <PropertyRef Name="BookingId" />
+    </Key>
+    <Property Name="BookingId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="HallId" Type="int" />
+    <Property Name="HallName" Type="varchar" MaxLength="100" />
+    <Property Name="FunctionType" Type="varchar" MaxLength="100" />
+    <Property Name="Decaration" Type="bit" />
+    <Property Name="ValidFrom" Type="datetime" />
+    <Property Name="ValidTo" Type="datetime" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="UserName" Type="varchar" MaxLength="100" />
+    <Property Name="BookedOn" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Cities">
+    <Key>
+      <PropertyRef Name="CityId" />
+    </Key>
+    <Property Name="CityId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CityName" Type="varchar" MaxLength="100" />
+    <Property Name="StateId" Type="int" />
+  </EntityType>
+  <EntityType Name="Countries">
+    <Key>
+      <PropertyRef Name="CountryId" />
+    </Key>
+    <Property Name="CountryId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CountryName" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Halls">
+    <Key>
+      <PropertyRef Name="HallId" />
+    </Key>
+    <Property Name="HallId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="HallName" Type="varchar" MaxLength="200" />
+    <Property Name="Country" Type="varchar" MaxLength="100" />
+    <Property Name="State" Type="varchar" MaxLength="100" />
+    <Property Name="City" Type="varchar" MaxLength="100" />
+    <Property Name="LandMark" Type="varchar" MaxLength="100" />
+    <Property Name="Address" Type="text" />
+    <Property Name="UserName" Type="varchar" MaxLength="100" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="PinCode" Type="varchar" MaxLength="10" />
+    <Property Name="Mobile" Type="varchar" MaxLength="20" />
+    <Property Name="Phone" Type="varchar" MaxLength="20" />
+    <Property Name="CostWithDecaration" Type="money" />
+    <Property Name="CostWithOutDecaration" Type="money" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="States">
+    <Key>
+      <PropertyRef Name="StateId" />
+    </Key>
+    <Property Name="StateId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="StateName" Type="varchar" MaxLength="100" />
+    <Property Name="CountryId" Type="int" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="RegId" />
+    </Key>
+    <Property Name="RegId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="varchar" MaxLength="100" />
+    <Property Name="LastName" Type="varchar" MaxLength="100" />
+    <Property Name="Password" Type="nvarchar" MaxLength="150" />
+    <Property Name="ConfirmPassword" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="Mobile" Type="varchar" MaxLength="100" />
+    <Property Name="Country" Type="varchar" MaxLength="100" />
+    <Property Name="State" Type="varchar" MaxLength="100" />
+    <Property Name="City" Type="varchar" MaxLength="100" />
+    <Property Name="Pincode" Type="varchar" MaxLength="50" />
+    <Property Name="AgentorMember" Type="char" MaxLength="10" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+</Schema>
