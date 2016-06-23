@@ -87,6 +87,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Styles\stylesheet.css" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -94,6 +95,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Agent\AgentAreaRegistration.cs" />
+    <Compile Include="Areas\Agent\Controllers\HallsRegController.cs" />
     <Compile Include="BookingDetail.cs">
       <DependentUpon>Halls.tt</DependentUpon>
     </Compile>
@@ -154,6 +156,8 @@
       <DependentUpon>Halls.edmx</DependentUpon>
       <LastGenOutput>Halls.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Agent\Views\HallsReg\HallReg.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -166,7 +170,6 @@
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Areas\Agent\Controllers\" />
     <Folder Include="Areas\Agent\Models\" />
     <Folder Include="Areas\Agent\Views\Shared\" />
     <Folder Include="Controllers\" />
