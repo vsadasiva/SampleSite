@@ -17,7 +17,8 @@ namespace HallsBooking.Areas.Agent
             context.MapRoute(
                 "Agent_default",
                 "Agent/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "HallReg", id = UrlParameter.Optional },
+                namespaces: new[] {"HallsBooking.Areas.Agent.Controllers"}
             );
         }
     }
