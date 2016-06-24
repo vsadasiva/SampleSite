@@ -1,0 +1,114 @@
+﻿@model HallsBooking.Hall
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Hall</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.HallName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.HallName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Country)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Country)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.State)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.State)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.City)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.City)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LandMark)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LandMark)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Address)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserName)
+    </div>    
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PinCode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PinCode)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Mobile)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Mobile)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Phone)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Phone)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CostWithDecaration)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CostWithDecaration)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CostWithOutDecaration)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CostWithOutDecaration)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreatedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatedDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreatedBy)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatedBy)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "HallDetailsEdit", new { id=Model.HallId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

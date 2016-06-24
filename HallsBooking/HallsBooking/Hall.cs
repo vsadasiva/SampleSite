@@ -11,6 +11,9 @@ namespace HallsBooking
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Web;
     
     public partial class Hall
     {
@@ -19,6 +22,9 @@ namespace HallsBooking
         public string Country { get; set; }
         public string State { get; set; }
         public string City { get; set; }
+        public string CountryId { get; set; }
+        public string StateId { get; set; }
+        public string CityId { get; set; }
         public string LandMark { get; set; }
         public string Address { get; set; }
         public string UserName { get; set; }
@@ -30,5 +36,12 @@ namespace HallsBooking
         public Nullable<decimal> CostWithOutDecaration { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+        public string Images { get; set; }
+        public int fileId { get; set; }
+        public string fileName { get; set; }
+        public byte[] file { get; set; }
+        [Required]
+        [DisplayName("Select File to Upload")]
+        public IEnumerable<HttpPostedFileBase> File { get; set; }  //2nd change
     }
 }

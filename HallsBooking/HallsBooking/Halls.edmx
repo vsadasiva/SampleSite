@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SampleModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SampleModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="SampleModelStoreContainer">
           <EntitySet Name="BookingDetails" EntityType="SampleModel.Store.BookingDetails" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Cities" EntityType="SampleModel.Store.Cities" store:Type="Tables" Schema="dbo" />
@@ -61,6 +61,7 @@
           <Property Name="Phone" Type="varchar" MaxLength="20" />
           <Property Name="CostWithDecaration" Type="money" />
           <Property Name="CostWithOutDecaration" Type="money" />
+          <Property Name="Images" Type="text" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="100" />
         </EntityType>
@@ -90,8 +91,7 @@
           <Property Name="AgentorMember" Type="char" MaxLength="10" />
           <Property Name="IsActive" Type="bit" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SampleModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -153,6 +153,7 @@
           <Property Name="CostWithOutDecaration" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Type="String" Name="Images" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="State">
           <Key>
@@ -222,6 +223,7 @@
           <EntitySetMapping Name="Halls">
             <EntityTypeMapping TypeName="SampleModel.Hall">
               <MappingFragment StoreEntitySet="Halls">
+                <ScalarProperty Name="Images" ColumnName="Images" />
                 <ScalarProperty Name="HallId" ColumnName="HallId" />
                 <ScalarProperty Name="HallName" ColumnName="HallName" />
                 <ScalarProperty Name="Country" ColumnName="Country" />
