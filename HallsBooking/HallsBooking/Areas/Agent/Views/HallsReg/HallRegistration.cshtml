@@ -1,0 +1,273 @@
+﻿@model HallsBooking.Hall
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <div id="respond">
+        <fieldset>
+            <legend>Hall</legend>
+            <table id="t01">
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.HallName)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.HallName)
+                            @Html.ValidationMessageFor(model => model.HallName)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Country)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.DropDownListFor(model => model.Country, new SelectList(ViewBag.Countries, "CountryId", "CountryName"), "Please Select a Country", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Country)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.State)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.DropDownListFor(model => model.State, new SelectList(Enumerable.Empty<SelectListItem>(), "StateId", "StateName"), "Please Select a State", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.State)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.City)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.DropDownListFor(model => model.City, new SelectList(Enumerable.Empty<SelectListItem>(), "CityId", "CityName"), "Please Select a City", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.City)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.LandMark)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.LandMark)
+                            @Html.ValidationMessageFor(model => model.LandMark)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Address)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.TextAreaFor(model => model.Address)
+                            @Html.ValidationMessageFor(model => model.Address)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.UserName)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.UserName)
+                            @Html.ValidationMessageFor(model => model.UserName)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.PinCode)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.PinCode)
+                            @Html.ValidationMessageFor(model => model.PinCode)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Mobile)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Mobile)
+                            @Html.ValidationMessageFor(model => model.Mobile)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Phone)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Phone)
+                            @Html.ValidationMessageFor(model => model.Phone)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.CostWithDecaration)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.CostWithDecaration)
+                            @Html.ValidationMessageFor(model => model.CostWithDecaration)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.CostWithOutDecaration)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.CostWithOutDecaration)
+                            @Html.ValidationMessageFor(model => model.CostWithOutDecaration)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.file)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                             @Html.TextBoxFor(model => model.file, new { type = "file", multiple = "true" })  @*1st change*@
+                            @Html.ValidationMessageFor(model => model.CostWithOutDecaration)
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>
+                <input type="submit" value="Create"  />
+            </p>
+        </fieldset>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $('#Country').change(function () {
+        var countryId = $('#Country').val();
+        $.ajax({
+            url: '/Agent/HallsReg/BindStates',
+            type: "Get",
+            dataType: "JSON",
+            data: { CountryId: countryId },
+            success: function (states) {
+                var items = '<option>Please Select a State</option>';
+                $.each(states, function (i, state) {
+                    items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                });
+                $('#State').html(items);
+            },
+            Error: function (error) {
+                alert("There is some Error")
+            }
+        });
+    });
+    $('#State').change(function () {
+        var stateId = $('#State').val();
+        $.ajax({
+            url: '/Agent/HallsReg/BindCites',
+            type: "Get",
+            dataType: "JSON",
+            data: { StateId: stateId },
+            success: function (cites) {
+                var items = '<option>Please Select a City</option>';
+                $.each(cites, function (i, cite) {
+                    items += "<option value='" + cite.Value + "'>" + cite.Text + "</option>";
+                });
+                $('#City').html(items);
+            },
+            Error: function (error) {
+                alert("There is some Error")
+            }
+        });
+    });
+    //function Create() {
+    //    debugger;
+    //    var hallName = $('#HallName').val();
+    //    var landMark = $('#LandMark').val();
+    //    var address = $('#Address').val();
+    //    var userName = $('#UserName').val();
+    //    var pinCode = $('#PinCode').val();
+    //    var mobile = $('#Mobile').val();
+    //    var phone = $('#Phone').val();
+    //    var costWithDecaration = $('#CostWithDecaration').val();
+    //    var costWithOutDecaration = $('#CostWithOutDecaration').val();
+    //    var country = $('#Country option:selected').html();
+    //    var state = $('#State option:selected').html();
+    //    var city = $('#City option:selected').html();
+    //    var hall = {
+    //        HallName: hallName,
+    //        LandMark: landMark,
+    //        Address: address,
+    //        UserName: userName,
+    //        PinCode: pinCode,
+    //        Mobile: mobile,
+    //        Phone: phone,
+    //        CostWithDecaration: costWithDecaration,
+    //        CostWithOutDecaration: costWithOutDecaration,
+    //        Country: country,
+    //        State: state,
+    //        City: city
+    //    };
+
+    //    var url = '/Agent/HallsReg/HallRegistrations';
+    //    $.post(url, hall);
+    //};
+
+</script>
+
+
