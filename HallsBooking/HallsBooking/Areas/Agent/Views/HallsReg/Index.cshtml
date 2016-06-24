@@ -1,0 +1,115 @@
+﻿@model IEnumerable<HallsBooking.Hall>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "HallRegistration")
+</p>
+<table  >
+    <thead>
+        <tr>
+            <th>
+                Hall Name
+            </th>
+            <th>
+                Country
+            </th>
+            <th>
+               State
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                Land Mark
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                User Name
+            </th>
+            <th>
+                PinCode
+            </th>
+            <th>
+               Mobile
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                Cost With Decaration
+            </th>
+            <th>
+                Cost WithOut Decaration
+            </th>
+            <th>
+               Created Date
+            </th>
+            <th>
+               Created By
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HallName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LandMark)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PinCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mobile)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostWithDecaration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostWithOutDecaration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "HallDetailsEdit", new { id = item.HallId }) |
+            @Html.ActionLink("Details", "HallsDetails", new { id = item.HallId }) |
+            @Html.ActionLink("Delete", "DeleteHall", new { id = item.HallId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
