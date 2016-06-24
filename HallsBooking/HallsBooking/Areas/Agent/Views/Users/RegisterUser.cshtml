@@ -1,0 +1,217 @@
+﻿@model HallsBooking.User
+
+@{
+    ViewBag.Title = "New User Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<title>Sign-Up/Login Form</title>
+@*<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>*@
+
+<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+<link href="~/Areas/Agent/Content/normalize.css" rel="stylesheet" />
+<link href="~/Areas/Agent/Content/style.css" rel="stylesheet" />
+
+
+<div class="form">
+
+    <ul class="tab-group">
+        <li class="tab active"><a href="#signup">Sign Up</a></li>
+        <li class="tab"><a href="#login">Log In</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="signup">
+            @using (Html.BeginForm())
+            {
+                <h1>Sign Up for Free</h1>
+                <div class="top-row">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    <div class="field-wrap">
+                        @Html.LabelFor(model => model.FirstName)
+                        @Html.EditorFor(model => model.FirstName)
+                        @Html.ValidationMessageFor(model => model.FirstName)
+                    </div>
+
+                    <div class="field-wrap">
+                        @Html.LabelFor(model => model.LastName)
+                        @Html.EditorFor(model => model.LastName)
+                        @Html.ValidationMessageFor(model => model.LastName)
+                    </div>
+                </div>
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.Password)
+                    @Html.PasswordFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.ConfirmPassword)
+                    @Html.PasswordFor(model => model.ConfirmPassword)
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                </div>
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.Email)
+                    @Html.EditorFor(model => model.Email)
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.Mobile)
+                    @Html.EditorFor(model => model.Mobile)
+                    @Html.ValidationMessageFor(model => model.Mobile)
+                </div>
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.Country)
+                    @Html.DropDownListFor(model => model.Country, new SelectList(ViewBag.Countries, "CountryId", "CountryName"), "Please Select a Country", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Country)
+                </div>
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.State)
+                    @Html.DropDownListFor(model => model.State, new SelectList(Enumerable.Empty<SelectListItem>(), "StateId", "StateName"), "Please Select a State", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.State)
+                </div>
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.City)
+                    @Html.DropDownListFor(model => model.City, new SelectList(Enumerable.Empty<SelectListItem>(), "CityId", "CityName"), "Please Select a City", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.City)
+                </div>
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.Pincode)
+                    @Html.EditorFor(model => model.Pincode)
+                    @Html.ValidationMessageFor(model => model.Pincode)
+                </div>
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.AgentorMember)
+                    @Html.DropDownListFor(model => model.AgentorMember, new List<SelectListItem>(){new SelectListItem() { Text= "Agent", Value = "Agent" },
+                 new SelectListItem() { Text= "Member", Value = "Member" }    }, "Select ...")
+                    @Html.ValidationMessageFor(model => model.AgentorMember)
+                </div>
+                <input type="submit" value="Register" class="btn btn-default" onclick="Register();" />
+            }
+        </div>
+
+
+        <div id="login">
+            <h1>Welcome Back!</h1>
+
+            <form action="/" method="post">
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.Email)
+                    @Html.EditorFor(model => model.Email)
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.Password)
+                    @Html.PasswordFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+
+                <p class="forgot"><a href="#">Forgot Password?</a></p>
+                <input type="submit" value="Register" class="btn btn-default" onclick="Login();" />
+                @*<button class="button button-block" />Log In</button>*@
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $('#Country').change(function () {
+        var countryId = $('#Country').val();
+        $.ajax({
+            url: '/Agent/Users/BindStates',
+            type: "Get",
+            dataType: "JSON",
+            data: { CountryId: countryId },
+            success: function (states) {
+                var items = '<option>Please Select a State</option>';
+                $.each(states, function (i, state) {
+                    items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                });
+                $('#State').html(items);
+                $('#City').html('<option>Please Select a City</option>');
+            },
+            Error: function (error) {
+                alert("There is some Error")
+            }
+        });
+    });
+    $('#State').change(function () {
+        var stateId = $('#State').val();
+        $.ajax({
+            url: '/Agent/Users/BindCites',
+            type: "Get",
+            dataType: "JSON",
+            data: { StateId: stateId },
+            success: function (cites) {
+                var items = '<option>Please Select a City</option>';
+                $.each(cites, function (i, cite) {
+                    items += "<option value='" + cite.Value + "'>" + cite.Text + "</option>";
+                });
+                $('#City').html(items);
+            },
+            Error: function (error) {
+                alert("There is some Error")
+            }
+        });
+    });
+    function Register() {
+        debugger;
+        var firstName = $('#FirstName').val();
+        var lastName = $('#LastName').val();
+        var password = $('#Password').val();
+        var confirmPassword = $('#ConfirmPassword').val();
+        var email = $('#Email').val();
+        var mobile = $('#Mobile').val();
+        var pincode = $('#Pincode').val();
+        var agentorMember = $('#AgentorMember option:selected').html();
+        var country = $('#Country option:selected').html();
+        var state = $('#State option:selected').html();
+        var city = $('#City option:selected').html();
+        var user = {
+            FirstName: firstName,
+            LastName: lastName,
+            Password: password,
+            ConfirmPassword: confirmPassword,
+            Email: email,
+            Mobile: mobile,
+            Pincode: pincode,
+            AgentorMember: agentorMember,
+            Country: country,
+            State: state,
+            City: city
+        };
+        var url = '/Agent/Users/RegisterUsers';
+        $.post(url, user);
+    };
+    $('.tab a').on('click', function (e) {
+
+        e.preventDefault();
+
+        $(this).parent().addClass('active');
+        $(this).parent().siblings().removeClass('active');
+
+        target = $(this).attr('href');
+
+        $('.tab-content > div').not(target).hide();
+
+        $(target).fadeIn(600);
+
+    });
+</script>
