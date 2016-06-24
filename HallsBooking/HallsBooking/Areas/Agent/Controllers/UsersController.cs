@@ -50,7 +50,7 @@ namespace HallsBooking.Areas.Agent.Controllers
             {
                 db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Users");
             }
 
             return View(user);
@@ -121,15 +121,19 @@ namespace HallsBooking.Areas.Agent.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        [HttpPost]
         public ActionResult Login(string Email,string Password)
         {
             bool isValid = db.Users.Any(x => x.Email == Email && x.Password == Password);
             if (isValid)
             {
                 Session["User"] = Email;
+                return Json(new { RedirectUrl= Url.Action("Index", "Users"),SuccessMessage="valid"},JsonRequestBehavior.AllowGet);
             }
-            return View();
+            else
+            {
+                ViewBag.InValidUser = "Invalid UserId or Password";
+                return Json(new { RedirectUrl = Url.Action("RegisterUser", "Users"), SuccessMessage = "invalid" }, JsonRequestBehavior.AllowGet);
+            }
         }
         protected override void Dispose(bool disposing)
         {

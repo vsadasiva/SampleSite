@@ -16,11 +16,32 @@
 <div class="form">
 
     <ul class="tab-group">
-        <li class="tab active"><a href="#signup">Sign Up</a></li>
-        <li class="tab"><a href="#login">Log In</a></li>
+        <li class="tab"><a href="#signup">Sign Up</a></li>
+        <li class="tab active"><a href="#login">Log In</a></li>
     </ul>
-
     <div class="tab-content">
+
+        <div id="login">
+            <h1>Welcome Back!</h1>
+
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.Email)<span class="req">*</span>
+                    @Html.EditorFor(model => model.Email)
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+
+                <div class="field-wrap">
+                    @Html.LabelFor(model => model.Password)
+                    @Html.PasswordFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+                <h3 id="result" style="color:red;float:left;"></h3>
+                <p class="forgot"><a href="#">Forgot Password?</a></p>
+                <input type="submit" value="Login" class="button button-block" onclick="Login();" />
+
+        </div>
+
+
         <div id="signup">
             @using (Html.BeginForm())
             {
@@ -87,44 +108,12 @@
                  new SelectListItem() { Text= "Member", Value = "Member" }    }, "Select ...")
                     @Html.ValidationMessageFor(model => model.AgentorMember)
                 </div>
-                <input type="submit" value="Register" class="btn btn-default" onclick="Register();" />
+                <input type="submit" value="Register" class="button button-block" onclick="Register();" />
             }
-        </div>
-
-
-        <div id="login">
-            <h1>Welcome Back!</h1>
-
-            <form action="/" method="post">
-                <div class="field-wrap">
-                    @Html.LabelFor(model => model.Email)
-                    @Html.EditorFor(model => model.Email)
-                    @Html.ValidationMessageFor(model => model.Email)
-                </div>
-
-                <div class="field-wrap">
-                    @Html.LabelFor(model => model.Password)
-                    @Html.PasswordFor(model => model.Password)
-                    @Html.ValidationMessageFor(model => model.Password)
-                </div>
-
-                <p class="forgot"><a href="#">Forgot Password?</a></p>
-                <input type="submit" value="Register" class="btn btn-default" onclick="Login();" />
-                @*<button class="button button-block" />Log In</button>*@
-
-            </form>
-
         </div>
 
     </div>
 </div>
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -199,6 +188,31 @@
         };
         var url = '/Agent/Users/RegisterUsers';
         $.post(url, user);
+    };
+    function Login() {
+        debugger;
+        var email = $('#Email').val();
+        var password = $('#Password').val();
+        $.ajax({
+            url: '/Agent/Users/Login',
+            type: "GET",
+            content: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: 'json',
+            data: { Email: email, Password: password },
+            success: function (d) {
+                if (d.SuccessMessage == 'invalid') {
+                    $('#Password').val("");
+                    $('#result').html('Invalid UserId or Password');
+                    $('#result').fadeOut(10000);
+                }
+                else if (d.SuccessMessage == 'valid') {
+                    window.location.href = d.RedirectUrl;
+                }
+
+            },
+            error: function (xhr, textStatus, errorThrown) { alert('error'); }
+        });
     };
     $('.tab a').on('click', function (e) {
 
