@@ -1,0 +1,45 @@
+﻿@model IEnumerable<HallsBooking.Hall>
+<link href="~/Areas/Halls/Content/DataTable.css" rel="stylesheet" />
+<script src="~/Areas/Halls/Scripts/DataTable.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#halls').DataTable({
+            "scrollY": "200px",
+            "scrollCollapse": true,
+            "paging": true
+        });
+    })
+</script>
+<table id="halls" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>
+                Hall Name
+            </th>
+
+            <th>
+                Address
+            </th>
+
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HallName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+
+                <td>@Html.ActionLink("View Details", "HallDetails", "AllHalls", new { @id = item.HallId }, null)</td>
+                <td>@Html.ActionLink("BookNow", "BookHall", "AllHalls", new { @id = item.HallId }, null)</td>
+            </tr>
+        }
+    </tbody>
+</table>

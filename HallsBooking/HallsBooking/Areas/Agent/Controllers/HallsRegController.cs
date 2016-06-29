@@ -67,15 +67,16 @@ namespace HallsBooking.Areas.Agent.Controllers
 
         public ActionResult HallDetailsEdit(int id = 0)
         {
-            Hall hall = db.Halls.Find(id);
-            IQueryable<HallImage> hallImages = db.HallImages.Where(x => x.HallId == id);
-            hall.HallImages = hallImages;
-            if (hall == null)
-            {
-                return HttpNotFound();
-            }
-            bindDropdowns(Convert.ToInt32(hall.Country), Convert.ToInt32(hall.State));
-            return View(hall);
+            //Hall hall = db.Halls.Find(id);
+            //IQueryable<HallImage> hallImages = db.HallImages.Where(x => x.HallId == id);
+            //hall.HallImages = hallImages;
+            //if (hall == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //bindDropdowns(Convert.ToInt32(hall.Country), Convert.ToInt32(hall.State));
+            //return View(hall);
+            return View();
         }
 
         //
@@ -147,18 +148,18 @@ namespace HallsBooking.Areas.Agent.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public FileContentResult FileDownload(int? id)
-        {
-            byte[] fileData;
-            string fileName;
+        //public FileContentResult FileDownload(int? id)
+        //{
+        //    byte[] fileData;
+        //    string fileName;
 
-            HallImage fileRecord = db.HallImages.Find(id);
+        //    HallImage fileRecord = db.HallImages.Find(id);
 
-            fileData = (byte[])fileRecord.ImageFile.ToArray();
-            fileName = fileRecord.ImageName;
+        //    fileData = (byte[])fileRecord.ImageFile.ToArray();
+        //    fileName = fileRecord.ImageName;
 
-            return File(fileData, "text", fileName);
-        }
+        //    return File(fileData, "text", fileName);
+        //}
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
