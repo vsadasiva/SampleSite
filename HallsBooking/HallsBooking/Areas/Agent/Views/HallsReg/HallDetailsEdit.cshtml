@@ -7,7 +7,7 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
 
@@ -111,7 +111,20 @@
             @Html.EditorFor(model => model.CostWithOutDecaration)
             @Html.ValidationMessageFor(model => model.CostWithOutDecaration)
         </div>
-
+        @if (Model.HallImages != null)
+        {
+            foreach (var item in Model.HallImages)
+            {
+            <div class="editor-field">
+                @*@Html.TextBoxFor(model => item.File, new { type = "file", multiple = "true" })*@
+                @Html.ActionLink(item.ImageName, "Filedownload", new { id = item.ImageId })
+                @Html.ValidationMessageFor(model => item.ImageName)
+            </div>
+            }
+        }
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.HallImage.File, new { type = "file", multiple = "true" })
+        </div>
         <p>
             <input type="submit" value="Save" />
         </p>
@@ -123,7 +136,7 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script type="text/javascript">
-  
+
     function Create() {
         debugger;
         var hallName = $('#HallName').val();
@@ -140,7 +153,7 @@
         var state = $('#State option:selected').html();
         var city = $('#City option:selected').html();
         var hall = {
-            HallId : hallId,
+            HallId: hallId,
             HallName: hallName,
             LandMark: landMark,
             Address: address,
@@ -158,5 +171,42 @@
         var url = '/Agent/HallsReg/HallDetailsUpdate';
         $.post(url, hall);
     };
-
+    $('#Country').change(function () {
+        var countryId = $('#Country').val();
+        $.ajax({
+            url: '/Agent/HallsReg/BindStates',
+            type: "Get",
+            dataType: "JSON",
+            data: { CountryId: countryId },
+            success: function (states) {
+                var items = '<option>Please Select a State</option>';
+                $.each(states, function (i, state) {
+                    items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                });
+                $('#State').html(items);
+            },
+            Error: function (error) {
+                alert("There is some Error")
+            }
+        });
+    });
+    $('#State').change(function () {
+        var stateId = $('#State').val();
+        $.ajax({
+            url: '/Agent/HallsReg/BindCites',
+            type: "Get",
+            dataType: "JSON",
+            data: { StateId: stateId },
+            success: function (cites) {
+                var items = '<option>Please Select a City</option>';
+                $.each(cites, function (i, cite) {
+                    items += "<option value='" + cite.Value + "'>" + cite.Text + "</option>";
+                });
+                $('#City').html(items);
+            },
+            Error: function (error) {
+                alert("There is some Error")
+            }
+        });
+    });
 </script>

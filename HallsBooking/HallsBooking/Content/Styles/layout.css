@@ -70,8 +70,8 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 /* ----------------------------------------------Content------------------------------------- */
 
 #container{padding:30px 0;}
-#container h1, #container h2, #container h3, #container h4, #container h5, #container h6{margin-bottom:20px; color:#797979; background-color:#FAFAFA; font-size:22px; font-style:italic;}
-#container a{color:#B86365; background-color:#FAFAFA;}
+#container h2, #container h3, #container h4, #container h5, #container h6{margin-bottom:20px; color:#797979; background-color:#FAFAFA; font-size:22px; font-style:italic;}
+/*#container a{color:#B86365; background-color:#FAFAFA;}*/
 
 .readmore{display:block; clear:both; margin:0; padding:0; font-size:12px; text-align:right; text-transform:uppercase;}
 .readmore a{display:inline-block; height:33px; padding-left:10px; background:url("images/readmore_left.gif") top left no-repeat;}

@@ -24,6 +24,24 @@ namespace HallsBooking.Areas.Agent.Models
             SampleEntities db = new SampleEntities();
             return (List<City>)db.Cities.Where(x => x.StateId == stateId);
         }
+        public static void AddImages(Hall hall)
+        {
+            SampleEntities db = new SampleEntities();
+            HallImage objhallImage = new HallImage();
+            foreach (var item in hall.HallImage.File)  //3rd change
+            {
+                byte[] uploadFile = new byte[item.InputStream.Length];
+                item.InputStream.Read(uploadFile, 0, uploadFile.Length);
+                objhallImage.ImageName = item.FileName;
+                objhallImage.ImageFile = uploadFile;
+                objhallImage.HallId = hall.HallId;
+                objhallImage.CreatedBy = "admin";
+                objhallImage.CreatedOn = DateTime.Now;
+                db.HallImages.Add(objhallImage);
+                db.SaveChanges();
+            }           
+
+        }
         
     }
 }

@@ -7,7 +7,7 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
     <div id="respond">
@@ -170,23 +170,24 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <div class="editor-label">
-                            @Html.LabelFor(model => model.file)
-                        </div>
-                    </td>
-                    <td>
-                        <div class="editor-field">
-                             @Html.TextBoxFor(model => model.file, new { type = "file", multiple = "true" })  @*1st change*@
-                            @Html.ValidationMessageFor(model => model.CostWithOutDecaration)
-                        </div>
-                    </td>
-                </tr>
+              
+                    <tr>
+                        <td>
+                            <div class="editor-label">
+                                @Html.LabelFor(model => model.HallImage.File)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="editor-field">
+                                @Html.TextBoxFor(model => model.HallImage.File, new { type = "file", multiple = "true" })  @*1st change*@
+                                @Html.ValidationMessageFor(model => model.HallImage.File)
+                            </div>
+                        </td>
+                    </tr>
             </table>
 
             <p>
-                <input type="submit" value="Create"  />
+                <input type="submit" value="Create" />
             </p>
         </fieldset>
     </div>
@@ -196,7 +197,11 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
 <script type="text/javascript">
+    $(document).ready(function () {
+        $('#t01').DataTable();
+    });
     $('#Country').change(function () {
         var countryId = $('#Country').val();
         $.ajax({
@@ -235,39 +240,7 @@
             }
         });
     });
-    //function Create() {
-    //    debugger;
-    //    var hallName = $('#HallName').val();
-    //    var landMark = $('#LandMark').val();
-    //    var address = $('#Address').val();
-    //    var userName = $('#UserName').val();
-    //    var pinCode = $('#PinCode').val();
-    //    var mobile = $('#Mobile').val();
-    //    var phone = $('#Phone').val();
-    //    var costWithDecaration = $('#CostWithDecaration').val();
-    //    var costWithOutDecaration = $('#CostWithOutDecaration').val();
-    //    var country = $('#Country option:selected').html();
-    //    var state = $('#State option:selected').html();
-    //    var city = $('#City option:selected').html();
-    //    var hall = {
-    //        HallName: hallName,
-    //        LandMark: landMark,
-    //        Address: address,
-    //        UserName: userName,
-    //        PinCode: pinCode,
-    //        Mobile: mobile,
-    //        Phone: phone,
-    //        CostWithDecaration: costWithDecaration,
-    //        CostWithOutDecaration: costWithOutDecaration,
-    //        Country: country,
-    //        State: state,
-    //        City: city
-    //    };
-
-    //    var url = '/Agent/HallsReg/HallRegistrations';
-    //    $.post(url, hall);
-    //};
-
+   
 </script>
 
 
