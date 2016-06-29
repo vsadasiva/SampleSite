@@ -4,10 +4,11 @@
     <title>Hall Booking</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <link href="~/Content/Styles/layout.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery.defaultvalue.js"></script>
+    @*<script src="~/Scripts/jquery.defaultvalue.js"></script>*@
     <script src="~/Scripts/jquery.min.js"></script>
     <script src="~/Scripts/jquery.scrollTo-min.js"></script>
     <script src="~/Scripts/jquery.ui.min.js"></script>
+   
     @*<script type="text/javascript">
         $(document).ready(function () {
             $("#fullname, #validemail, #message").defaultvalue("Full Name", "Email Address", "Message");
@@ -68,7 +69,7 @@
                     <li><a href="pages/full-width.html">About Us</a></li>
                     <li><a href="pages/gallery.html">Halls Booking</a></li>
                     <li><a href="pages/gallery.html">Halls Registration</a></li>
-                    <li><a href="pages/style-demo.html">Halls</a></li>
+                    <li><a href="/Halls/AllHalls/Halls">Halls</a></li>
                     <li class="active"><a href="index.html">Homepage</a></li>
                 </ul>
             </div>
@@ -81,8 +82,6 @@
             @RenderBody()
         </div>
     </div>
-
-
     <div class="wrapper">
         <div id="copyright" class="clear">
             <p>Copyright &copy; 2016 - All Rights Reserved - <a href="#">Domain Name</a></p>
