@@ -16,7 +16,7 @@ namespace HallsBooking.Areas.Halls.Controllers
             ViewBag.Countries = countries;
             return View();
         }
-       
+
         public ActionResult GetAllHalls(int CityId)
         {
             string id = CityId.ToString();

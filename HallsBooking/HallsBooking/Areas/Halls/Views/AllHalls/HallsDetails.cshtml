@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<HallsBooking.Hall>
+﻿@model IEnumerable<HallsBooking.Hall>
 <link href="~/Areas/Halls/Content/DataTable.css" rel="stylesheet" />
 <script src="~/Areas/Halls/Scripts/DataTable.js"></script>
 <script>
@@ -38,8 +37,8 @@
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
 
-                <td>@Html.ActionLink("View Details", "HallDetails", "AllHalls",new { @id=item.HallId},null)</td>
-                <td>@Html.ActionLink("BookNow", "BookHall" , "AllHalls", new { @id = item.HallId }, null)</td>
+                <td>@Html.ActionLink("View Details", "HallDetails", "AllHalls", new { @id = item.HallId }, null)</td>
+                <td>@Html.ActionLink("BookNow", "BookHall", "AllHalls", new { @id = item.HallId }, null)</td>
             </tr>
         }
     </tbody>

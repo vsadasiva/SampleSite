@@ -4,6 +4,7 @@
     <title>Hall Booking</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <link href="~/Content/Styles/layout.css" rel="stylesheet" />
+<<<<<<< HEAD
 
 
     <script src="~/Scripts/jquery.min.js"></script>
@@ -17,20 +18,64 @@
         $(function () {
             // this will get the full URL at the address bar
             var url = window.location.href;
+=======
+    @*<script src="~/Scripts/jquery.defaultvalue.js"></script>*@
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.scrollTo-min.js"></script>
+    <script src="~/Scripts/jquery.ui.min.js"></script>
+>>>>>>> d0b7ff42d30cafb6d18c581039a9a3a407af9c63
 
-            // passes on every "a" tag 
-            $("#topnav a").each(function () {
-                // checks if its the same on the address bar
-                if (url == (this.href)) {
-                    $(this).closest("li").addClass("active");
-                }
-                else {
-                    $(this).closest("li").removeClass("active");
-                }
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                $("#fullname, #validemail, #message").defaultvalue("Full Name", "Email Address", "Message");
+                $('#shout a').click(function () {
+                    var to = $(this).attr('href');
+                    $.scrollTo(to, 1200);
+                    return false;
+                });
+                $('a.topOfPage').click(function () {
+                    $.scrollTo(0, 1200);
+                    return false;
+                });
+                $("#tabcontainer").tabs({
+                    event: "click"
+                });
             });
+        </script>*@
+    <!-- Homepage Only Scripts -->
+    <script type="text/javascript" src="layout/scripts/jquery.cycle.min.js"></script>
+    @*<script type="text/javascript">
+            $(function () {
+                $('#hpage_slider').after('<div id="fsn"><ul id="fs_pagination">').cycle({
+                    timeout: 5000,
+                    fx: 'fade',
+                    pager: '#fs_pagination',
+                    pause: 1,
+                    pauseOnPagerHover: 0
+                });
+            });
+<<<<<<< HEAD
         });
     </script>
 
+=======
+        </script>*@
+    <script type="text/javascript" src="layout/scripts/piecemaker/swfobject/swfobject.js"></script>
+    @*<script type="text/javascript">
+            var flashvars = {};
+            flashvars.cssSource = "layout/scripts/piecemaker/piecemaker.css";
+            flashvars.xmlSource = "layout/scripts/piecemaker/piecemaker.xml";
+            var params = {};
+            params.play = "false";
+            params.menu = "false";
+            params.scale = "showall";
+            params.wmode = "transparent";
+            params.allowfullscreen = "true";
+            params.allowscriptaccess = "sameDomain";
+            params.allownetworking = "all";
+            swfobject.embedSWF('layout/scripts/piecemaker/piecemaker.swf', 'piecemaker', '960', '430', '10', null, flashvars, params, null);
+        </script>*@
+>>>>>>> d0b7ff42d30cafb6d18c581039a9a3a407af9c63
     <!-- End Homepage Only Scripts -->
 </head>
 
@@ -38,16 +83,16 @@
     <div class="wrapper col2">
         <div id="header" class="clear">
             <div class="fl_left">
-                <h1><a href="~/Home/Home">Halls Registration</a></h1>
+                <h1><a href="index.html">Halls Registration</a></h1>
             </div>
             <div id="topnav">
                 <ul>
                     <li class="last"><a href="pages/portfolio.html">Contact Us</a></li>
                     <li><a href="pages/full-width.html">About Us</a></li>
                     <li><a href="pages/gallery.html">Halls Booking</a></li>
-                    <li><a href="~/Agent/HallsReg/HallRegistration">Halls Registration</a></li>
+                    <li><a href="pages/gallery.html">Halls Registration</a></li>
                     <li><a href="/Halls/AllHalls/Halls">Halls</a></li>
-                    <li class="active"><a href="~/Home/Home">Homepage</a></li>
+                    <li class="active"><a href="index.html">Homepage</a></li>
                 </ul>
             </div>
         </div>
