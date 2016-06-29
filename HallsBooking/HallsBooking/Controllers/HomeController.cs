@@ -11,9 +11,30 @@ namespace HallsBooking.Controllers
         //
         // GET: /Home/
 
-        public ActionResult Index()
+        public ActionResult Home()
         {
-            return View();
+            SampleEntities db = new SampleEntities();
+            var content = db.HallImages;
+            return View(content);
+        }
+        public ActionResult RetrieveImage(int id)
+        {
+            byte[] cover = GetImageFromDataBase(id);
+            if (cover != null)
+            {
+                return File(cover, "image/jpg");
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public byte[] GetImageFromDataBase(int Id)
+        {
+           SampleEntities db = new SampleEntities();
+            var q = from temp in db.HallImages where temp.ImageId == Id select temp.ImageFile;
+            byte[] cover = q.First();
+            return cover;
         }
 
     }

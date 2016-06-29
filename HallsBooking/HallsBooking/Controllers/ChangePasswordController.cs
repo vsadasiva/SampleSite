@@ -4,14 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace HallsBooking.Areas.Agent.Controllers
+namespace HallsBooking.Controllers
 {
     public class ChangePasswordController : Controller
     {
-        //
-        // GET: /Agent/ChangePassword/
-
-        SampleEntities db = new SampleEntities();
+         //
+        // GET: /ChangePassword/
+        SampleEntities2 db = new SampleEntities2();
         public ActionResult ChangePassword()
         {
             return View();

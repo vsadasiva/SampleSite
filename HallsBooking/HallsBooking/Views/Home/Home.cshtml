@@ -1,0 +1,29 @@
+﻿@model IEnumerable<HallImage>
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="content">
+    <div id="sliderFrame">
+        <div id="slider">
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <img src="/Home/RetrieveImage/@item.ImageId" height="306px" width="700px">
+                }
+            }
+        </div>
+    </div>
+</div>
+<div id="column">
+    <div class="holder">
+        <h2 class="title">
+            <img src="../images/demo/60x60.gif" alt="">Nullamlacus dui ipsum conseque</h2>
+        <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. Urnaultrices quis curabitur phasellentesque.</p>
+        <p class="readmore"><a href="#">Continue Reading »</a></p>
+    </div>
+</div>
+<link href="~/Content/Styles/js-image-slider.css" rel="stylesheet" />
+<script src="~/Scripts/js-image-slider.js"></script>
