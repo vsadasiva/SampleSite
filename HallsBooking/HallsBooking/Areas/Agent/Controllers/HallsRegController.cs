@@ -89,7 +89,6 @@ namespace HallsBooking.Areas.Agent.Controllers
                 hall.CreatedDate = DateTime.Now;
                 db.Entry(hall).State = EntityState.Modified;
                 db.SaveChanges();
-                //
                 HallsBooking.Areas.Agent.Models.DbContext.AddImages(hall);
                 return RedirectToAction("Index");
             }

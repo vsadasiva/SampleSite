@@ -39,9 +39,9 @@ namespace HallsBooking.Areas.Agent.Models
                 objhallImage.CreatedOn = DateTime.Now;
                 db.HallImages.Add(objhallImage);
                 db.SaveChanges();
-            }           
+            }
 
         }
-        
+
     }
 }

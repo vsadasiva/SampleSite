@@ -28,6 +28,7 @@ namespace HallsBooking
         public DbSet<BookingDetail> BookingDetails { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<HallImage> HallImages { get; set; }
         public DbSet<Hall> Halls { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<User> Users { get; set; }
