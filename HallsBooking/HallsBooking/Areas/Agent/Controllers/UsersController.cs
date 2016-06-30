@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using HallsBooking;
 using System.Net.Mail;
+using HallsBooking.Areas.Halls.Constants;
+using System.Web.Security;
 
 namespace HallsBooking.Areas.Agent.Controllers
 {
@@ -128,6 +130,7 @@ namespace HallsBooking.Areas.Agent.Controllers
             if (isValid)
             {
                 Session["User"] = Email;
+                FormsAuthentication.SetAuthCookie(Email, true);
                 return Json(new { RedirectUrl = Url.Action("Index", "Users"), SuccessMessage = "valid" }, JsonRequestBehavior.AllowGet);
             }
             else
@@ -135,6 +138,12 @@ namespace HallsBooking.Areas.Agent.Controllers
                 ViewBag.InValidUser = "Invalid UserId or Password";
                 return Json(new { RedirectUrl = Url.Action("RegisterUser", "Users"), SuccessMessage = "invalid" }, JsonRequestBehavior.AllowGet);
             }
+        }
+        public ActionResult Logout()
+        {
+            Session["User"] = null;
+            FormsAuthentication.SignOut();
+            return RedirectToAction("RegisterUser");
         }
         public ActionResult ForgottenPassword()
         {
@@ -168,12 +177,13 @@ namespace HallsBooking.Areas.Agent.Controllers
         [NonAction]
         public void PasswordLink(string Email)
         {
-            string dateTime = DateTime.Now.ToString().Replace(' ', '-');
+            string EmailId = Constant.Encrypt(Email);
+            string dateTime = Constant.Encrypt(DateTime.Now.ToString().Replace(' ', '-'));
             var message = new MailMessage();
             message.To.Add(new MailAddress(Email));
             message.From = new MailAddress("sitecoreteam7.5@gmail.com");
             message.Subject = "Password Reset";
-            message.Body = "http://localhost:51946/Agent/Users/ResetPassword?Id=" + Email + "&Time=" + dateTime;
+            message.Body = "http://localhost:51946/Agent/Users/ResetPassword?Id=" + EmailId + "&Time=" + dateTime;
             message.IsBodyHtml = true;
             using (var smtp = new SmtpClient())
             {
@@ -194,8 +204,10 @@ namespace HallsBooking.Areas.Agent.Controllers
         {
             if (Request.QueryString["Id"] != null && Request.QueryString["Time"] != null)
             {
-                Session["Email"] = Request.QueryString["Id"].ToString();
-                DateTime time = Convert.ToDateTime((Request.QueryString["Time"].ToString()).Replace('-', ' '));
+                Session["Email"] = Constant.Decrypt(Request.QueryString["Id"].ToString());
+                string Datetime = Constant.Decrypt(Request.QueryString["Time"].ToString());
+                DateTime time= Convert.ToDateTime(Datetime.Replace('-', ' '));
+                Session["Datetime"] = time;
                 DateTime currentTime = DateTime.Now;
                 int hours = Convert.ToInt32(currentTime.Subtract(time).TotalHours);
                 if (hours > 24)

@@ -11,7 +11,6 @@ namespace HallsBooking.Areas.Halls
                 return "Halls";
             }
         }
-
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
