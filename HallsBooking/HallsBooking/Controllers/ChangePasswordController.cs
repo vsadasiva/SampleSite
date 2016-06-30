@@ -17,18 +17,24 @@ namespace HallsBooking.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangePassword(string OldPassword, string NewPassword, string ConfirmPassword)
+        public ActionResult ChangePassword(int Id, string OldPassword, string NewPassword, string ConfirmPassword)
         {
-            var pwd = db.Users.SingleOrDefault(x => x.RegId == 1);
-            if (pwd.Password == OldPassword)
+            Id = 1;
+            var pwd = db.Users.SingleOrDefault(x => x.RegId == Id);
+            if (pwd.Password == OldPassword && pwd.ConfirmPassword == ConfirmPassword)
             {
                 pwd.Password = NewPassword;
                 pwd.ConfirmPassword = ConfirmPassword;
                 db.SaveChanges();
             }
-            else
+            else if (pwd.ConfirmPassword == ConfirmPassword)
             {
                 ViewBag.InValidOldPassword = "InValid Old Password";
+                return View("ChangePassword");
+            }
+            else
+            {
+                ViewBag.InValidOldPassword = "New password and Confirm Pawssword should match";
                 return View("ChangePassword");
             }
             return View();

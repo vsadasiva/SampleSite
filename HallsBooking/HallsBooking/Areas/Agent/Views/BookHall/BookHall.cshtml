@@ -1,0 +1,182 @@
+﻿@model HallsBooking.Areas.Agent.Models.BookHall
+@using System.Web.Mvc.Html;
+@{
+    ViewBag.Title = "BookHall";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>BookHall</h2>
+
+<div id="respond">
+    <fieldset>
+        <legend>Hall</legend>
+        <table id="t01">
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.Label("Decaration")
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.DropDownList("Decaration", new List<SelectListItem>(){new SelectListItem() { Text= "With Decaration", Value = "Withdecaration" },
+                                    new SelectListItem() { Text= "WithOut Decaration", Value = "Withoutdecaration" }    }, "Select ...")
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.Label("Amount")
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.TextBox("Amount", new { @readonly = "readonly" })
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Hall.HallName)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Hall.HallName)
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Hall.Address)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Hall.Address)
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Hall.Mobile)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Hall.Mobile)
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Hall.Phone)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Hall.Phone)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.BookingDetail.UserName)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.BookingDetail.UserName)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.BookingDetail.ContactNumber)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.BookingDetail.ContactNumber)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.BookingDetail.FunctionType)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.DropDownList("functionType", new SelectList(ViewBag.FunctionType), "Please Select a Country")
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.BookingDetail.ValidFrom)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.BookingDetail.ValidFrom)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.BookingDetail.ValidTo)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.BookingDetail.ValidTo)
+                    </div>
+                </td>
+            </tr>
+             <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.BookingDetail.ExtraCharges)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.BookingDetail.ExtraCharges)
+                    </div>
+                </td>
+            </tr>
+             <tr>
+                <td>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.BookingDetail.ExtraRequirements)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.TextAreaFor(model => model.BookingDetail.ExtraRequirements)
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+        <p>
+            <input type="submit" value="Submit" />
+        </p>
+    </fieldset>
+</div>
