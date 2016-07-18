@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HallsBooking.Filters;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace HallsBooking.Areas.Agent.Controllers
 {
+    [CustomException]
     public class HallsRegController : Controller
     {
         private SampleEntities db = new SampleEntities();

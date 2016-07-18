@@ -10,9 +10,11 @@ using HallsBooking;
 using System.Net.Mail;
 using HallsBooking.Areas.Halls.Constants;
 using System.Web.Security;
+using HallsBooking.Filters;
 
 namespace HallsBooking.Areas.Agent.Controllers
 {
+    //[CustomException]
     public class UsersController : Controller
     {
         private SampleEntities db = new SampleEntities();
@@ -26,7 +28,8 @@ namespace HallsBooking.Areas.Agent.Controllers
         // GET: Agent/Users/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            //int id = Convert.ToInt32(Constant.Decrypt(Request["id"]));
+            if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -71,33 +74,82 @@ namespace HallsBooking.Areas.Agent.Controllers
         // GET: Agent/Users/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            //int id = Convert.ToInt32(Constant.Decrypt(Request["id"]));
+           // int id = Convert.ToInt32(Request["id"]);
+            if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             User user = db.Users.Find(id);
+            ViewBag.RegId = id;
+            int countryId = db.Countries.SingleOrDefault(x => x.CountryName == user.Country).CountryId;
+            int stateId = db.States.SingleOrDefault(x => x.StateName == user.State).StateId;
+            int cityId = db.Cities.SingleOrDefault(x => x.CityName == user.City).CityId;
+            bindDropdowns(countryId,stateId,cityId);
             if (user == null)
             {
                 return HttpNotFound();
             }
             return View(user);
         }
+        private void bindDropdowns(int countryId, int stateId,int cityId)
+        {
+            if (ViewBag.Countries == null)
+            {
+                List<Country> country= HallsBooking.Areas.Agent.Models.DbContext.GetCountries();
+                ViewBag.Countries = new SelectList(country, "CountryId", "CountryName", countryId);
+                //ViewBag.Countries = HallsBooking.Areas.Agent.Models.DbContext.GetCountries();
+            }
+            if (ViewBag.States == null)
+            {
+                var states = db.States.Where(x => x.CountryId == countryId).ToList();
+                ViewBag.States = new SelectList(states, "StateId", "StateName", stateId);
+                //ViewBag.States = states;
+            }
+            if (ViewBag.Cities == null)
+            {
+                var cities = db.Cities.Where(x => x.StateId == stateId).ToList();
+                ViewBag.Cities = new SelectList(cities, "CityId", "CityName", cityId);
+                //ViewBag.Cities = cities;
+            }
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult EditUser(User obj)
+        {
+            if (ModelState.IsValid)
+            {
+                // var url = Url.RequestContext.RouteData.Values["id"];
+                var result = db.Users.SingleOrDefault(x => x.RegId == obj.RegId);
+                if(result!=null)
+                {
+                    db.Entry(result).CurrentValues.SetValues(obj);
+                    return Json(new { RedirectUrl = Url.Action("Index", "Users"), SuccessMessage = "valid" }, JsonRequestBehavior.AllowGet);
+                }
+                //db.Entry(user).State = EntityState.Modified;
+                //db.SaveChanges();
+                //return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+
 
         // POST: Agent/Users/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "RegId,FirstName,LastName,Password,ConfirmPassword,Email,Mobile,Country,State,City,Pincode,AgentorMember,IsActive")] User user)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(user);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "RegId,FirstName,LastName,Password,ConfirmPassword,Email,Mobile,Country,State,City,Pincode,AgentorMember,IsActive")] User user)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(user).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(user);
+        //}
 
         // GET: Agent/Users/Delete/5
         public ActionResult Delete(int? id)
@@ -129,8 +181,14 @@ namespace HallsBooking.Areas.Agent.Controllers
             bool isValid = db.Users.Any(x => x.Email == Email && x.Password == Password);
             if (isValid)
             {
-                Session["User"] = Email;
-                FormsAuthentication.SetAuthCookie(Email, true);
+                int userid = db.Users.SingleOrDefault(x => x.Email == Email).RegId;
+                if (userid != 0)
+                {
+                    string uid = userid.ToString();
+                    string id = Constant.Encrypt(uid);
+                    Session["User"] = id;
+                    FormsAuthentication.SetAuthCookie(Email, true);
+                }
                 return Json(new { RedirectUrl = Url.Action("Index", "Users"), SuccessMessage = "valid" }, JsonRequestBehavior.AllowGet);
             }
             else

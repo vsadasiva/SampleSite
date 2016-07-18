@@ -45,10 +45,13 @@
                     @{
                         if (Session["User"] != null)
                         {
+                            string id = Session["User"].ToString();
                             <li class="last">
                                 <a href="/Agent/Users/RegisterUser">User</a>
                                 <ul>
+                                    <li><a href="/Agent/Users/Details?id=@id">Profile</a></li>
                                     <li><a href="#">Change Password</a></li>
+                                    <li><a href="/Agent/Users/Edit?id=@id">Edit Profile</a></li>
                                     <li><a href="#">Booked Halls</a></li>
                                     <li class="last"><a href="/Agent/Users/Logout">Logout</a></li>
                                 </ul>
@@ -69,8 +72,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="wrapper col4">
         <div id="container" class="clear">
             @RenderBody()

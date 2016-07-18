@@ -32,10 +32,9 @@ namespace HallsBooking.Controllers
         public byte[] GetImageFromDataBase(int Id)
         {
             SampleEntities db = new SampleEntities();
-            var q = from temp in db.HallImages where temp.ImageId == Id select temp.ImageFile;
+            var q = from temp in db.HallImages where temp.HallId == Id select temp.ImageFile;
             byte[] cover = q.First();
             return cover;
         }
-
     }
 }
