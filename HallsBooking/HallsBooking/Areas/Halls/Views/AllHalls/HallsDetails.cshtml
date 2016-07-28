@@ -37,7 +37,7 @@
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
 
-                <td>@Html.ActionLink("View Details", "HallDetails", "AllHalls", new { @id = item.HallId }, null)</td>
+                <td>@Html.ActionLink("View Details", "ViewHallDetails", "AllHalls", new { @id = item.HallId }, null)</td>
                 <td>@Html.ActionLink("BookNow", "BookHall", "AllHalls", new { @id = item.HallId }, null)</td>
             </tr>
         }

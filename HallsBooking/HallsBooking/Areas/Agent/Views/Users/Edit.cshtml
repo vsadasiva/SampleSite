@@ -10,92 +10,91 @@
     int regId = ViewBag.RegId;
 }
 
-    <div class="form-horizontal">
-        <h4>User</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.RegId)
+<div class="form-horizontal">
+    <h4>User</h4>
+    <hr />
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.RegId)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName)
-                @Html.ValidationMessageFor(model => model.FirstName)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName)
-                @Html.ValidationMessageFor(model => model.LastName)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email)
-                @Html.ValidationMessageFor(model => model.Email)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Mobile)
-                @Html.ValidationMessageFor(model => model.Mobile)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Country, ViewBag.Countries as SelectList, new { htmlAttributes = new { @class = "form-control" } })
-                @*@Html.EditorFor(model => model.Country)*@
-                @Html.ValidationMessageFor(model => model.Country)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.State, ViewBag.States as SelectList, new { htmlAttributes = new { @class = "form-control" } })
-                @* @Html.EditorFor(model => model.State)*@
-                @Html.ValidationMessageFor(model => model.State)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.City, ViewBag.Cities as SelectList, new { htmlAttributes = new { @class = "form-control" } })
-                @*@Html.EditorFor(model => model.City)*@
-                @Html.ValidationMessageFor(model => model.City)
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Pincode)
-                @Html.ValidationMessageFor(model => model.Pincode)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AgentorMember, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.AgentorMember, new List<SelectListItem>(){new SelectListItem() { Text= "Agent", Value = "Agent" },
-                 new SelectListItem() { Text= "Member", Value = "Member" }    }, "Select ...")
-                @Html.ValidationMessageFor(model => model.AgentorMember)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" onclick="Update();" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FirstName)
+            @Html.ValidationMessageFor(model => model.FirstName)
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LastName)
+            @Html.ValidationMessageFor(model => model.LastName)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Mobile)
+            @Html.ValidationMessageFor(model => model.Mobile)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Country, ViewBag.Countries as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Country)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.State, ViewBag.States as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            @* @Html.EditorFor(model => model.State)*@
+            @Html.ValidationMessageFor(model => model.State)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.City, ViewBag.Cities as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            @*@Html.EditorFor(model => model.City)*@
+            @Html.ValidationMessageFor(model => model.City)
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Pincode)
+            @Html.ValidationMessageFor(model => model.Pincode)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AgentorMember, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.AgentorMember, new List<SelectListItem>(){new SelectListItem() { Text= "Agent", Value = "Agent" },
+                 new SelectListItem() { Text= "Member", Value = "Member" }    }, "Select ...")
+            @Html.ValidationMessageFor(model => model.AgentorMember)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" onclick="Update();" />
+        </div>
+    </div>
+</div>
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -175,27 +174,15 @@
             City: city
         };
         var url = '/Agent/Users/EditUser';
-        $.post(url, user);
-        //var obj = JSON.stringify(user);
-        //$.ajax({
-        //    url: '/Agent/Users/EditUser',
-        //    type: "POST",
-        //    content: "application/json; charset=utf-8",
-        //    crossDomain: true,
-        //    dataType: 'json',
-        //    data: obj,
-        //    success: function (d) {
-        //         if (d.SuccessMessage == 'valid') {
-        //            alert('Records Updated Succussfully');
-        //            window.location.href = d.RedirectUrl;
-        //         }
-        //         else
-        //         {
-        //             alert('Updation Failed');
-        //         }
-        //    },
-        //    error: function (xhr, textStatus, errorThrown) { alert('error'); }
-        //});
+        $.post(url, user,
+            function (data, status) {
+                if (data.SuccessMessage == 'valid') {
+                    window.location.href = data.RedirectUrl;
+                }
+                else {
+                    alert('Error!While Updating your Profile...')
+                }
+            });
     };
 
 </script>

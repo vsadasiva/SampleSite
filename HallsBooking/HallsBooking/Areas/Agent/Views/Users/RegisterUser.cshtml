@@ -161,12 +161,11 @@
         });
     });
     function Register() {
-        debugger;
         var firstName = $('#FirstName').val();
         var lastName = $('#LastName').val();
-        var password = $('#Password').val();
+        var password = $("#Password").val();
         var confirmPassword = $('#ConfirmPassword').val();
-        var email = $('#Email').val();
+        var email = $("#Email").val();
         var mobile = $('#Mobile').val();
         var pincode = $('#Pincode').val();
         var agentorMember = $('#AgentorMember option:selected').html();
@@ -187,7 +186,12 @@
             City: city
         };
         var url = '/Agent/Users/RegisterUsers';
-        $.post(url, user);
+        $.post(url, user,
+            function (data, status) {
+                if (data.Message == 'EmailIdExists') {
+                    alert('EmailIdExists');
+                }
+            });
     };
     function Login() {
         debugger;

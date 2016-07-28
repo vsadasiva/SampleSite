@@ -13,20 +13,21 @@ namespace HallsBooking.Areas.Agent.Controllers
     public class HallsRegController : Controller
     {
         private SampleEntities db = new SampleEntities();
-
-        //
-        // GET: /Agent/HallsReg/
-
+        /// <summary>
+        /// Method for Display the all Halls.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             List<Hall> lstHalls = db.Halls.ToList();
 
             return View(db.Halls.ToList());
         }
-
-        //
-        // GET: /Agent/HallsReg/Details/5
-
+        /// <summary>
+        /// Display the Hall Details.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult HallsDetails(int id = 0)
         {
             Hall hall = db.Halls.Find(id);
@@ -36,19 +37,21 @@ namespace HallsBooking.Areas.Agent.Controllers
             }
             return View(hall);
         }
-
-        //
-        // GET: /Agent/HallsReg/Create
-
+        /// <summary>
+        /// New Hall Registration.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult HallRegistration()
         {
             List<Country> countries = db.Countries.ToList();
             ViewBag.Countries = HallsBooking.Areas.Agent.Models.DbContext.GetCountries();
             return View();
         }
-
-        //
-        // POST: /Agent/HallsReg/Create
+        /// <summary>
+        /// Save the Hall details into database.
+        /// </summary>
+        /// <param name="hall"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult HallRegistration(Hall hall)
         {
@@ -63,10 +66,11 @@ namespace HallsBooking.Areas.Agent.Controllers
             }
             return View(hall);
         }
-
-        //
-        // GET: /Agent/HallsReg/Edit/5
-
+        /// <summary>
+        /// Hall editing.
+        /// </summary>
+        /// <param name="id">HallID</param>
+        /// <returns></returns>
         public ActionResult HallDetailsEdit(int id = 0)
         {
             Hall hall = db.Halls.Find(id);
@@ -79,9 +83,11 @@ namespace HallsBooking.Areas.Agent.Controllers
             bindDropdowns(Convert.ToInt32(hall.Country), Convert.ToInt32(hall.State));
             return View(hall);
         }
-
-        //
-        // POST: /Agent/HallsReg/Edit/5
+        /// <summary>
+        /// Update the Hall Details into Databese.
+        /// </summary>
+        /// <param name="hall">Hall Data</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult HallDetailsEdit(Hall hall)
         {
@@ -96,6 +102,11 @@ namespace HallsBooking.Areas.Agent.Controllers
             }
             return View(hall);
         }
+        /// <summary>
+        /// Binding the Country,State,Cities.
+        /// </summary>
+        /// <param name="countryId">CountryID</param>
+        /// <param name="stateId">StateID</param>
         private void bindDropdowns(int countryId, int stateId)
         {
             if (ViewBag.Countries == null)
@@ -113,9 +124,11 @@ namespace HallsBooking.Areas.Agent.Controllers
                 ViewBag.Cities = cities;
             }
         }
-        //
-        // GET: /Agent/HallsReg/Delete/5
-
+        /// <summary>
+        /// Delete the Hall
+        /// </summary>
+        /// <param name="id">HallID</param>
+        /// <returns></returns>
         public ActionResult DeleteHall(int id = 0)
         {
             Hall hall = db.Halls.Find(id);
@@ -125,21 +138,31 @@ namespace HallsBooking.Areas.Agent.Controllers
             }
             return View(hall);
         }
-
+        /// <summary>
+        /// Binding the States.Based on CountryID
+        /// </summary>
+        /// <param name="CountryId">CountryID</param>
+        /// <returns></returns>
         public JsonResult BindStates(int CountryId)
         {
             List<State> states = db.States.Where(s => s.CountryId == CountryId).ToList();
             return Json(new SelectList(states.ToArray(), "StateId", "StateName"), JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// Binding the Cites,Based on StateID
+        /// </summary>
+        /// <param name="StateId">StateID</param>
+        /// <returns></returns>
         public JsonResult BindCites(int StateId)
         {
             List<City> cites = db.Cities.Where(s => s.StateId == StateId).ToList();
             return Json(new SelectList(cites.ToArray(), "CityId", "CityName"), JsonRequestBehavior.AllowGet);
         }
-
-        //
-        // POST: /Agent/HallsReg/Delete/5
-
+        /// <summary>
+        /// Getting the Hall.If user Clicks on Delete Confirm.
+        /// </summary>
+        /// <param name="id">HallID</param>
+        /// <returns></returns>
         [HttpPost, ActionName("DeleteHall")]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -148,6 +171,11 @@ namespace HallsBooking.Areas.Agent.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        /// <summary>
+        /// Method for FileDownload....
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public FileContentResult FileDownload(int? id)
         {
             byte[] fileData;

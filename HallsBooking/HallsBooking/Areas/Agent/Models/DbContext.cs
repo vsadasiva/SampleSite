@@ -40,7 +40,11 @@ namespace HallsBooking.Areas.Agent.Models
                 db.HallImages.Add(objhallImage);
                 db.SaveChanges();
             }
-
+        }
+        public static bool IsMailIDExists(string email)
+        {
+            SampleEntities db = new SampleEntities();
+            return db.Users.Any(x => x.Email == email);
         }
 
     }

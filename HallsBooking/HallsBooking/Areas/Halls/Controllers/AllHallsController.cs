@@ -29,11 +29,17 @@ namespace HallsBooking.Areas.Halls.Controllers
             //  return Json(halls, JsonRequestBehavior.AllowGet);
             return PartialView("HallsDetails", halls);
         }
+        /// <summary>
+        ///showing the halls
+        /// </summary>
         public ActionResult ShowAllHalls()
         {
             List<Hall> halls = db.Halls.OrderBy(h => h.HallId).Take(2).ToList();
             return View(halls);
         }
+        /// <summary>
+        /// Show more functionality...
+        /// </summary>
         [HttpPost]
         [AllowAnonymous]
         public JsonResult ShowMoreHalls(int size)
@@ -50,6 +56,9 @@ namespace HallsBooking.Areas.Halls.Controllers
             }
             return Json(model);
         }
+        /// <summary>
+        /// Partial view for Show more halls.
+        /// </summary>
         public string RenderRazorViewToString(string viewName, object model)
         {
             ViewData.Model = model;
@@ -62,6 +71,28 @@ namespace HallsBooking.Areas.Halls.Controllers
                 viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
                 return sw.GetStringBuilder().ToString();
             }
+        }
+        /// <summary>
+        /// Getting the Single Hall Details.
+        /// </summary>
+        public ActionResult ViewHallDetails(int? id)
+        {
+            Hall hallDetails = db.Halls.FirstOrDefault(x=>x.HallId==id);
+            int countryId = int.Parse(hallDetails.Country);
+            int stateId = int.Parse(hallDetails.State);
+            int cityId = int.Parse(hallDetails.City);
+            ViewBag.CountryName = db.Countries.SingleOrDefault(x => x.CountryId == countryId).CountryName;
+            ViewBag.StateName = db.States.SingleOrDefault(x => x.StateId == stateId).StateName;
+            ViewBag.CityName = db.Cities.SingleOrDefault(x => x.CityId == cityId).CityName;
+            return View(hallDetails);
+        }
+        /// <summary>
+        /// Booking the Hall
+        /// </summary>
+        /// <param name="id">Hall Id</param>
+        public ActionResult BookHall(int id)
+        {
+            return View();
         }
     }
 }

@@ -11,92 +11,138 @@ using System.Net.Mail;
 using HallsBooking.Areas.Halls.Constants;
 using System.Web.Security;
 using HallsBooking.Filters;
+using HallsBooking.Areas.Agent.Models;
 
 namespace HallsBooking.Areas.Agent.Controllers
 {
-    //[CustomException]
     public class UsersController : Controller
     {
         private SampleEntities db = new SampleEntities();
 
-        // GET: Agent/Users
+        /// <summary>
+        /// Displaying the all Users Data...
+        /// </summary>
+        [CustomAuthorize("admin")]
         public ActionResult Index()
         {
             return View(db.Users.ToList());
         }
-
-        // GET: Agent/Users/Details/5
-        public ActionResult Details(int? id)
+        /// <summary>
+        /// Display the Single UserData
+        /// </summary>
+        public ActionResult Details()
         {
-            //int id = Convert.ToInt32(Constant.Decrypt(Request["id"]));
-            if (id == 0)
+            string id = Request["id"];
+            if (id != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                int userID = Convert.ToInt32(Constant.Decrypt(id));
+                if (userID == 0)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                User user = db.Users.Find(userID);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            else
             {
                 return HttpNotFound();
             }
-            return View(user);
         }
-
-        // GET: Agent/Users/Create
+        /// <summary>
+        /// New User registration
+        /// </summary>
         public ActionResult RegisterUser()
         {
             List<Country> countries = db.Countries.ToList();
             ViewBag.Countries = countries;
             return View();
         }
+        /// <summary>
+        /// store the New User data into database.
+        /// </summary>
+        /// <param name="user">Getting the user Filled data using JQuery</param>
+        /// <returns></returns>
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult RegisterUsers(User user)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index", "Users");
+                if (user.Email != null)
+                {
+                    if (!HallsBooking.Areas.Agent.Models.DbContext.IsMailIDExists(user.Email))
+                    {
+                        db.Users.Add(user);
+                        db.SaveChanges();
+                        return RedirectToAction("Index", "Users");
+                    }
+                    else
+                    {
+                        return Json(new { Message = "EmailIdExists" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
             }
 
             return View(user);
         }
+        /// <summary>
+        /// Bind the States
+        /// </summary>
+        /// <param name="CountryId">Getting the Current Country ID</param>
         public JsonResult BindStates(int CountryId)
         {
             List<State> states = db.States.Where(s => s.CountryId == CountryId).ToList();
             return Json(new SelectList(states.ToArray(), "StateId", "StateName"), JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// Bind the Cities
+        /// </summary>
+        /// <param name="StateId"> Getting the Current StateId</param>
         public JsonResult BindCites(int StateId)
         {
             List<City> cites = db.Cities.Where(s => s.StateId == StateId).ToList();
             return Json(new SelectList(cites.ToArray(), "CityId", "CityName"), JsonRequestBehavior.AllowGet);
         }
-        // GET: Agent/Users/Edit/5
-        public ActionResult Edit(int? id)
+        /// <summary>
+        /// Edit page for Current User.
+        /// </summary>
+        public ActionResult Edit()
         {
-            //int id = Convert.ToInt32(Constant.Decrypt(Request["id"]));
-           // int id = Convert.ToInt32(Request["id"]);
-            if (id == 0)
+            string id = Request["id"];
+            if (id != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                int userId = Convert.ToInt32(Constant.Decrypt(id));
+                // int id = Convert.ToInt32(Request["id"]);
+                if (userId == 0)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                User user = db.Users.Find(userId);
+                ViewBag.RegId = userId;
+                int countryId = db.Countries.SingleOrDefault(x => x.CountryName == user.Country).CountryId;
+                int stateId = db.States.SingleOrDefault(x => x.StateName == user.State).StateId;
+                int cityId = db.Cities.SingleOrDefault(x => x.CityName == user.City).CityId;
+                bindDropdowns(countryId, stateId, cityId);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
             }
-            User user = db.Users.Find(id);
-            ViewBag.RegId = id;
-            int countryId = db.Countries.SingleOrDefault(x => x.CountryName == user.Country).CountryId;
-            int stateId = db.States.SingleOrDefault(x => x.StateName == user.State).StateId;
-            int cityId = db.Cities.SingleOrDefault(x => x.CityName == user.City).CityId;
-            bindDropdowns(countryId,stateId,cityId);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            return View("_Error");
         }
-        private void bindDropdowns(int countryId, int stateId,int cityId)
+        /// <summary>
+        /// Binding The DropDowns For User Selected Values.
+        /// </summary>
+        private void bindDropdowns(int countryId, int stateId, int cityId)
         {
             if (ViewBag.Countries == null)
             {
-                List<Country> country= HallsBooking.Areas.Agent.Models.DbContext.GetCountries();
+                List<Country> country = HallsBooking.Areas.Agent.Models.DbContext.GetCountries();
                 ViewBag.Countries = new SelectList(country, "CountryId", "CountryName", countryId);
                 //ViewBag.Countries = HallsBooking.Areas.Agent.Models.DbContext.GetCountries();
             }
@@ -113,69 +159,68 @@ namespace HallsBooking.Areas.Agent.Controllers
                 //ViewBag.Cities = cities;
             }
         }
+        /// <summary>
+        /// Update the user Edited data to database.
+        /// </summary>
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult EditUser(User obj)
         {
             if (ModelState.IsValid)
             {
-                // var url = Url.RequestContext.RouteData.Values["id"];
+                User objUser = new HallsBooking.User();
                 var result = db.Users.SingleOrDefault(x => x.RegId == obj.RegId);
-                if(result!=null)
+                if (result != null)
                 {
-                    db.Entry(result).CurrentValues.SetValues(obj);
+                    result.FirstName = obj.FirstName;
+                    result.LastName = obj.LastName;
+                    result.Email = obj.Email;
+                    result.Mobile = obj.Mobile;
+                    result.Country = obj.Country;
+                    result.State = obj.State;
+                    result.Pincode = obj.Pincode;
+                    result.AgentorMember = obj.AgentorMember;
+                    db.SaveChanges();
                     return Json(new { RedirectUrl = Url.Action("Index", "Users"), SuccessMessage = "valid" }, JsonRequestBehavior.AllowGet);
                 }
-                //db.Entry(user).State = EntityState.Modified;
-                //db.SaveChanges();
-                //return RedirectToAction("Index");
             }
             return View();
         }
-
-
-
-        // POST: Agent/Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "RegId,FirstName,LastName,Password,ConfirmPassword,Email,Mobile,Country,State,City,Pincode,AgentorMember,IsActive")] User user)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(user).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(user);
-        //}
-
-        // GET: Agent/Users/Delete/5
-        public ActionResult Delete(int? id)
+        /// <summary>
+        /// Method for Deletion of user data..
+        /// </summary>
+        public ActionResult Delete(string id)
         {
+            int userID = Convert.ToInt32(Constant.Decrypt(id));
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            User user = db.Users.Find(userID);
             if (user == null)
             {
                 return HttpNotFound();
             }
             return View(user);
         }
-
-        // POST: Agent/Users/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        /// <summary>
+        /// Method for deletion Confirmation.
+        /// </summary>
+        public ActionResult DeleteConfirmed()
         {
+            string userID = Request["id"].ToString();
+            int id = Convert.ToInt32(Constant.Decrypt(userID));
             User user = db.Users.Find(id);
             db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        /// <summary>
+        /// Method for Checking the userCredentials.
+        /// </summary>
+        /// <param name="Email"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
         public ActionResult Login(string Email, string Password)
         {
             bool isValid = db.Users.Any(x => x.Email == Email && x.Password == Password);
@@ -187,7 +232,7 @@ namespace HallsBooking.Areas.Agent.Controllers
                     string uid = userid.ToString();
                     string id = Constant.Encrypt(uid);
                     Session["User"] = id;
-                    FormsAuthentication.SetAuthCookie(Email, true);
+                    //FormsAuthentication.SetAuthCookie(Email, true);
                 }
                 return Json(new { RedirectUrl = Url.Action("Index", "Users"), SuccessMessage = "valid" }, JsonRequestBehavior.AllowGet);
             }
@@ -197,33 +242,46 @@ namespace HallsBooking.Areas.Agent.Controllers
                 return Json(new { RedirectUrl = Url.Action("RegisterUser", "Users"), SuccessMessage = "invalid" }, JsonRequestBehavior.AllowGet);
             }
         }
+        /// <summary>
+        /// Method for Logout The user..
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Logout()
         {
             Session["User"] = null;
-            FormsAuthentication.SignOut();
+            //FormsAuthentication.SignOut();
             return RedirectToAction("RegisterUser");
         }
+        /// <summary>
+        /// Method for ForgottenPassword 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ForgottenPassword()
         {
-            if (Session["InvalidEmail"] != null)
-            {
-                ViewBag.Result = Session["InvalidEmail"];
-                Session["InvalidEmail"] = null;
-            }
-            else if (Session["Message"] != null)
-            {
-                ViewBag.Message = Session["Message"];
-                Session["Message"] = null;
-            }
+            //if (Session["InvalidEmail"] != null)
+            //{
+            //    ViewBag.Result = Session["InvalidEmail"];
+            //    Session["InvalidEmail"] = null;
+            //}
+            //else if (Session["Message"] != null)
+            //{
+            //    ViewBag.Message = Session["Message"];
+            //    Session["Message"] = null;
+            //}
             return View();
         }
+        /// <summary>
+        /// checking the EmailID is Valid or Not
+        /// </summary>
+        /// <param name="Email">MailID</param>
         [HttpPost]
         public ActionResult ForgottenPassword(string Email)
         {
             bool result = db.Users.Any(x => x.Email == Email);
             if (!result)
             {
-                Session["InvalidEmail"] = "Email does not exist";
+                // Session["InvalidEmail"] = "Email does not exist";
+                ViewBag.Result= "Email does not exist";
                 return RedirectToAction("ForgottenPassword");
             }
             else
@@ -232,6 +290,9 @@ namespace HallsBooking.Areas.Agent.Controllers
                 return RedirectToAction("ForgottenPassword");
             }
         }
+        /// <summary>
+        /// Method for Sending the ResetPassword Link to User MailID.
+        /// </summary>
         [NonAction]
         public void PasswordLink(string Email)
         {
@@ -256,15 +317,19 @@ namespace HallsBooking.Areas.Agent.Controllers
                 smtp.EnableSsl = true;
                 smtp.Send(message);
             }
-            Session["Message"] = "Reset Password Link Is Sent to Your Email...";
+            // Session["Message"] = "Reset Password Link Is Sent to Your Email...";
+            ViewBag.Message= "Reset Password Link Is Sent to Your Email...";
         }
+        /// <summary>
+        /// Method for Reset password.
+        /// </summary>
         public ActionResult ResetPassword()
         {
             if (Request.QueryString["Id"] != null && Request.QueryString["Time"] != null)
             {
                 Session["Email"] = Constant.Decrypt(Request.QueryString["Id"].ToString());
                 string Datetime = Constant.Decrypt(Request.QueryString["Time"].ToString());
-                DateTime time= Convert.ToDateTime(Datetime.Replace('-', ' '));
+                DateTime time = Convert.ToDateTime(Datetime.Replace('-', ' '));
                 Session["Datetime"] = time;
                 DateTime currentTime = DateTime.Now;
                 int hours = Convert.ToInt32(currentTime.Subtract(time).TotalHours);
@@ -275,6 +340,12 @@ namespace HallsBooking.Areas.Agent.Controllers
             }
             return View();
         }
+        /// <summary>
+        /// Method for Store the Passwords into database.
+        /// </summary>
+        /// <param name="Password"></param>
+        /// <param name="ConfirmPassword"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult ResetPassword(String Password, string ConfirmPassword)
         {
@@ -290,7 +361,6 @@ namespace HallsBooking.Areas.Agent.Controllers
             }
             return View();
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -298,6 +368,40 @@ namespace HallsBooking.Areas.Agent.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        [CustomAuthorize("user")]
+        public ActionResult ChangePassword()
+        {
+            //if (Session["InVlidOldPassword"]!=null)
+            //{
+            //    ViewBag.InValidOldPassword = "InValid Old Password";    
+            //}
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ChangePassword(string OldPassword, string Password, string ConfirmPassword)
+        {
+            int id = Convert.ToInt32(Constant.Decrypt(Session["User"].ToString()));
+            var user = db.Users.Where(x => x.RegId == id).FirstOrDefault();
+            if (user.Password == OldPassword)
+            {
+                user.Password = Password;
+                user.ConfirmPassword = ConfirmPassword;
+                db.SaveChanges();
+                Session["User"] = null;
+                return RedirectToAction("RegisterUser");
+            }
+            else
+            {
+                //  Session["InVlidOldPassword"] = true;
+                ViewBag.InValidOldPassword = "InValid Old Password";
+                return View();
+            }
+        }
+        //[CustomAuthorize("user")]
+        public ActionResult UnAuthorize()
+        {
+            return View();
         }
     }
 }

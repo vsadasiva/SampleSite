@@ -1,12 +1,13 @@
-﻿@model IEnumerable<HallsBooking.User>
+﻿@using HallsBooking.Areas.Agent.Models
+@model IEnumerable<HallsBooking.User>
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Index</h2>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@{ 
+    string userID;
+}
 <table class="table">
     <thead>
         <tr>
@@ -84,9 +85,15 @@
                     @Html.DisplayFor(modelItem => item.AgentorMember)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.RegId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.RegId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.RegId })
+                    @{ 
+                        string id = item.RegId.ToString();
+                        userID= ConstantModel.Encrypt(id);
+                    }
+                  <a href="/Agent/Users/Details?id=@userID">Details</a>
+                   <a href="/Agent/Users/Delete?id=@userID">Delete</a>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = userID }) |*@
+                    @*@Html.ActionLink("Details", "Details", "Users", new { @id = userID }) |
+                    @Html.ActionLink("Delete", "Delete", "Users", new { @id = userID })*@
                 </td>
             </tr>
         }

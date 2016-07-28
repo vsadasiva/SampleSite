@@ -27,5 +27,6 @@ namespace HallsBooking
         public string Pincode { get; set; }
         public string AgentorMember { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public string Role { get; set; }
     }
 }

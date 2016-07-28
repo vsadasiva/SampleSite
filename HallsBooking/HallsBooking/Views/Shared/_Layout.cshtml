@@ -1,3 +1,5 @@
+@using HallsBooking.Areas.Agent.Models
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,13 +47,16 @@
                     @{
                         if (Session["User"] != null)
                         {
+
                             string id = Session["User"].ToString();
+                            //string userId = ConstantModel.Encrypt(id);
                             <li class="last">
                                 <a href="/Agent/Users/RegisterUser">User</a>
                                 <ul>
                                     <li><a href="/Agent/Users/Details?id=@id">Profile</a></li>
-                                    <li><a href="#">Change Password</a></li>
+                                    <li><a href="/Agent/Users/ChangePassword?id=@id">Change Password</a></li>
                                     <li><a href="/Agent/Users/Edit?id=@id">Edit Profile</a></li>
+                                    @*@Html.ActionLink("Edit Profile", "Edit", "Users", new { @id = userId },null)*@
                                     <li><a href="#">Booked Halls</a></li>
                                     <li class="last"><a href="/Agent/Users/Logout">Logout</a></li>
                                 </ul>
