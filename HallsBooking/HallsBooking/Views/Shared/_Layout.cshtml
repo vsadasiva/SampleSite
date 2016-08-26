@@ -11,6 +11,7 @@
     <script src="~/Scripts/jquery.min.js"></script>
     <script src="~/Scripts/jquery.ui.min.js"></script>
     <script src="~/Scripts/jquery.defaultvalue.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
 
     @*<script src="~/Scripts/jquery.defaultvalue.js"></script>*@
     <script src="~/Scripts/jquery.scrollTo-min.js"></script>
@@ -69,9 +70,14 @@
                     }
                     <li><a href="pages/portfolio.html">Contact Us</a></li>
                     <li><a href="pages/full-width.html">About Us</a></li>
-                    <li><a href="pages/gallery.html">Halls Booking</a></li>
+                    <li><a href="pages/gallery">Halls Booking</a></li>
                     <li><a href="~/Agent/HallsReg/HallRegistration">Halls Registration</a></li>
-                    <li><a href="/Halls/AllHalls/Halls">Halls</a></li>
+                    <li><a href="#">Halls</a>
+                        <ul>
+                            <li><a href="/Halls/AllHalls/Halls">Select Halls</a></li>
+                            <li><a href="/Halls/AllHalls/ShowAllHalls">Show All Halls</a>
+                        </ul>
+                    </li>
                     <li class="active"><a href="~/Home/Home">Homepage</a></li>
                 </ul>
             </div>

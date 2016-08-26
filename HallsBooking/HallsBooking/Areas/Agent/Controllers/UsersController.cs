@@ -234,7 +234,7 @@ namespace HallsBooking.Areas.Agent.Controllers
                     Session["User"] = id;
                     //FormsAuthentication.SetAuthCookie(Email, true);
                 }
-                return Json(new { RedirectUrl = Url.Action("Index", "Users"), SuccessMessage = "valid" }, JsonRequestBehavior.AllowGet);
+                return Json(new { RedirectUrl = "/Home/Home", SuccessMessage = "valid" }, JsonRequestBehavior.AllowGet);
             }
             else
             {
@@ -242,6 +242,7 @@ namespace HallsBooking.Areas.Agent.Controllers
                 return Json(new { RedirectUrl = Url.Action("RegisterUser", "Users"), SuccessMessage = "invalid" }, JsonRequestBehavior.AllowGet);
             }
         }
+       // RedirectUrl = Url.Action("Index", "Users")
         /// <summary>
         /// Method for Logout The user..
         /// </summary>
@@ -258,16 +259,6 @@ namespace HallsBooking.Areas.Agent.Controllers
         /// <returns></returns>
         public ActionResult ForgottenPassword()
         {
-            //if (Session["InvalidEmail"] != null)
-            //{
-            //    ViewBag.Result = Session["InvalidEmail"];
-            //    Session["InvalidEmail"] = null;
-            //}
-            //else if (Session["Message"] != null)
-            //{
-            //    ViewBag.Message = Session["Message"];
-            //    Session["Message"] = null;
-            //}
             return View();
         }
         /// <summary>
@@ -280,14 +271,13 @@ namespace HallsBooking.Areas.Agent.Controllers
             bool result = db.Users.Any(x => x.Email == Email);
             if (!result)
             {
-                // Session["InvalidEmail"] = "Email does not exist";
                 ViewBag.Result= "Email does not exist";
-                return RedirectToAction("ForgottenPassword");
+                return View();
             }
             else
             {
                 PasswordLink(Email);
-                return RedirectToAction("ForgottenPassword");
+                return View();
             }
         }
         /// <summary>
@@ -317,8 +307,8 @@ namespace HallsBooking.Areas.Agent.Controllers
                 smtp.EnableSsl = true;
                 smtp.Send(message);
             }
-            // Session["Message"] = "Reset Password Link Is Sent to Your Email...";
-            ViewBag.Message= "Reset Password Link Is Sent to Your Email...";
+            ModelState.Clear();
+            ViewBag.Result = "Reset Password Link Is Sent to Your Email...";
         }
         /// <summary>
         /// Method for Reset password.
@@ -369,13 +359,9 @@ namespace HallsBooking.Areas.Agent.Controllers
             }
             base.Dispose(disposing);
         }
-        [CustomAuthorize("user")]
+        [CustomAuthorize("user","admin")]
         public ActionResult ChangePassword()
         {
-            //if (Session["InVlidOldPassword"]!=null)
-            //{
-            //    ViewBag.InValidOldPassword = "InValid Old Password";    
-            //}
             return View();
         }
         [HttpPost]
@@ -393,12 +379,11 @@ namespace HallsBooking.Areas.Agent.Controllers
             }
             else
             {
-                //  Session["InVlidOldPassword"] = true;
                 ViewBag.InValidOldPassword = "InValid Old Password";
                 return View();
             }
         }
-        //[CustomAuthorize("user")]
+       // [CustomAuthorize("user")]
         public ActionResult UnAuthorize()
         {
             return View();
