@@ -33,7 +33,7 @@ namespace HallsBooking.Controllers
         {
             SampleEntities db = new SampleEntities();
             var q = from temp in db.HallImages where temp.HallId == Id select temp.ImageFile;
-            byte[] cover = q.First();
+            byte[] cover = q.FirstOrDefault();
             return cover;
         }
     }
