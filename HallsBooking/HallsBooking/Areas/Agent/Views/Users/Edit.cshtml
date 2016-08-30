@@ -1,10 +1,8 @@
 ﻿@model HallsBooking.User
-
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Edit</h2>
 @{
     int regId = ViewBag.RegId;
@@ -13,176 +11,175 @@
 <div class="form-horizontal">
     <h4>User</h4>
     <hr />
-    @Html.ValidationSummary(true)
-    @Html.HiddenFor(model => model.RegId)
+    @using (Html.BeginForm("Edit", "Users", FormMethod.Post, new { id = "registration-form" }))
+    {
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.RegId)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.FirstName)
-            @Html.ValidationMessageFor(model => model.FirstName)
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstName)
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.LastName)
-            @Html.ValidationMessageFor(model => model.LastName)
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName)
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Email)
-            @Html.ValidationMessageFor(model => model.Email)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Mobile)
-            @Html.ValidationMessageFor(model => model.Mobile)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mobile)
+                @Html.ValidationMessageFor(model => model.Mobile)
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.Country, ViewBag.Countries as SelectList, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Country)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Country, new SelectList(ViewBag.Countries, "CountryId", "CountryName"), "Please Select a Country", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Country)
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.State, ViewBag.States as SelectList, new { htmlAttributes = new { @class = "form-control" } })
-            @* @Html.EditorFor(model => model.State)*@
-            @Html.ValidationMessageFor(model => model.State)
+        <div class="form-group">
+            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.State, new SelectList(ViewBag.States, "StateId", "StateName"), "Please Select a State", new { htmlAttributes = new { @class = "form-control" } })
+                @* @Html.EditorFor(model => model.State)*@
+                @Html.ValidationMessageFor(model => model.State)
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.City, ViewBag.Cities as SelectList, new { htmlAttributes = new { @class = "form-control" } })
-            @*@Html.EditorFor(model => model.City)*@
-            @Html.ValidationMessageFor(model => model.City)
+        <div class="form-group">
+            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.City, new SelectList(ViewBag.Cities, "CityId", "CityName"), "Please Select a City", new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.EditorFor(model => model.City)*@
+                @Html.ValidationMessageFor(model => model.City)
+            </div>
         </div>
-    </div>
 
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Pincode)
-            @Html.ValidationMessageFor(model => model.Pincode)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Pincode)
+                @Html.ValidationMessageFor(model => model.Pincode)
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.AgentorMember, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.AgentorMember, new List<SelectListItem>(){new SelectListItem() { Text= "Agent", Value = "Agent" },
+        <div class="form-group">
+            @Html.LabelFor(model => model.AgentorMember, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.AgentorMember, new List<SelectListItem>(){new SelectListItem() { Text= "Agent", Value = "Agent" },
                  new SelectListItem() { Text= "Member", Value = "Member" }    }, "Select ...")
-            @Html.ValidationMessageFor(model => model.AgentorMember)
+                @Html.ValidationMessageFor(model => model.AgentorMember)
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" onclick="Update();" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
         </div>
-    </div>
-</div>
+    }
+    <script src="~/Scripts/RegistrationFormValidation.js"></script>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script type="text/javascript">
-    //$(document).ready(function () {
-    //    var items = '<option>Please Select a Country</option>';
-    //    $('#Country').html(items);
-    //});
-    $('#Country').change(function () {
-        var countryId = $('#Country').val();
-        $.ajax({
-            url: '/Agent/Users/BindStates',
-            type: "Get",
-            dataType: "JSON",
-            data: { CountryId: countryId },
-            success: function (states) {
-                var items = '<option>Please Select a State</option>';
-                $.each(states, function (i, state) {
-                    items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
-                });
-                $('#State').html(items);
-                $('#City').html('<option>Please Select a City</option>');
-            },
-            Error: function (error) {
-                alert("There is some Error")
-            }
-        });
-    });
-    $('#State').change(function () {
-        var stateId = $('#State').val();
-        $.ajax({
-            url: '/Agent/Users/BindCites',
-            type: "Get",
-            dataType: "JSON",
-            data: { StateId: stateId },
-            success: function (cites) {
-                var items = '<option>Please Select a City</option>';
-                $.each(cites, function (i, cite) {
-                    items += "<option value='" + cite.Value + "'>" + cite.Text + "</option>";
-                });
-                $('#City').html(items);
-            },
-            Error: function (error) {
-                alert("There is some Error")
-            }
-        });
-    });
-    function Update() {
-        debugger;
-        var regId = parseInt("@regId");
-        var firstName = $('#FirstName').val();
-        var lastName = $('#LastName').val();
-        var email = $('#Email').val();
-        var mobile = $('#Mobile').val();
-        var pincode = $('#Pincode').val();
-        var agentorMember = $('#AgentorMember option:selected').html();
-        var country = $('#Country option:selected').html();
-        var state = $('#State option:selected').html();
-        var city = $('#City option:selected').html();
-        var user = {
-            RegId: regId,
-            FirstName: firstName,
-            LastName: lastName,
-            Email: email,
-            Mobile: mobile,
-            Pincode: pincode,
-            AgentorMember: agentorMember,
-            Country: country,
-            State: state,
-            City: city
-        };
-        var url = '/Agent/Users/EditUser';
-        $.post(url, user,
-            function (data, status) {
-                if (data.SuccessMessage == 'valid') {
-                    window.location.href = data.RedirectUrl;
-                }
-                else {
-                    alert('Error!While Updating your Profile...')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        //$(document).ready(function () {
+        //    var items = '<option>Please Select a Country</option>';
+        //    $('#Country').html(items);
+        //});
+        $('#Country').change(function () {
+            var countryId = $('#Country').val();
+            $.ajax({
+                url: '/Agent/Users/BindStates',
+                type: "Get",
+                dataType: "JSON",
+                data: { CountryId: countryId },
+                success: function (states) {
+                    var items = '<option>Please Select a State</option>';
+                    $.each(states, function (i, state) {
+                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                    });
+                    $('#State').html(items);
+                    $('#City').html('<option>Please Select a City</option>');
+                },
+                Error: function (error) {
+                    alert("There is some Error")
                 }
             });
-    };
+        });
+        $('#State').change(function () {
+            var stateId = $('#State').val();
+            $.ajax({
+                url: '/Agent/Users/BindCites',
+                type: "Get",
+                dataType: "JSON",
+                data: { StateId: stateId },
+                success: function (cites) {
+                    var items = '<option>Please Select a City</option>';
+                    $.each(cites, function (i, cite) {
+                        items += "<option value='" + cite.Value + "'>" + cite.Text + "</option>";
+                    });
+                    $('#City').html(items);
+                },
+                Error: function (error) {
+                    alert("There is some Error")
+                }
+            });
+        });
+        @*function Update() {
+            debugger;
+            var regId = parseInt("@regId");
+            var firstName = $('#FirstName').val();
+            var lastName = $('#LastName').val();
+            var email = $('#Email').val();
+            var mobile = $('#Mobile').val();
+            var pincode = $('#Pincode').val();
+            var agentorMember = $('#AgentorMember option:selected').html();
+            var country = $('#Country option:selected').html();
+            var state = $('#State option:selected').html();
+            var city = $('#City option:selected').html();
+            var user = {
+                RegId: regId,
+                FirstName: firstName,
+                LastName: lastName,
+                Email: email,
+                Mobile: mobile,
+                Pincode: pincode,
+                AgentorMember: agentorMember,
+                Country: country,
+                State: state,
+                City: city
+            };
+            var url = '/Agent/Users/EditUser';
+            $.post(url, user,
+                function (data, status) {
+                    if (data.SuccessMessage == 'valid') {
+                        window.location.href = data.RedirectUrl;
+                    }
+                    else {
+                        alert('Error!While Updating your Profile...')
+                    }
+                });
+        };*@
 
-</script>
+    </script>

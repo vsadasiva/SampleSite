@@ -6,26 +6,29 @@
 }
 
 <title>Sign-Up/Login Form</title>
-@*<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>*@
 
 <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
 <link href="~/Areas/Agent/Content/normalize.css" rel="stylesheet" />
 <link href="~/Areas/Agent/Content/style.css" rel="stylesheet" />
 
-
+@{
+    string returnUrl = ViewBag.ReturnUrl;
+}
 <div class="form">
-
+    <h3 id="Email" style="color:red;"> @ViewBag.EmailExits</h3>
     <ul class="tab-group">
         <li class="tab"><a href="#signup">Sign Up</a></li>
         <li class="tab active"><a href="#login">Log In</a></li>
     </ul>
     <div class="tab-content">
-
         <div id="login">
-            <h1>Welcome Back!</h1>
+            @using (Html.BeginForm("Login", "Users", FormMethod.Post, new { id = "registration-form1" }))
+            {
 
+                <h1>Welcome Back!</h1>
+                @Html.Hidden("ReturnUrl", returnUrl)
                 <div class="field-wrap">
-                    @Html.LabelFor(model => model.Email)<span class="req">*</span>
+                    @Html.LabelFor(model => model.Email)
                     @Html.EditorFor(model => model.Email)
                     @Html.ValidationMessageFor(model => model.Email)
                 </div>
@@ -37,13 +40,12 @@
                 </div>
                 <h3 id="result" style="color:red;float:left;"></h3>
                 <p class="forgot"><a href="/agent/users/ForgottenPassword">Forgot Password?</a></p>
-                <input type="submit" value="Login" class="button button-block" onclick="Login();" />
+                <input type="submit" value="Login" class="button button-block" />
 
+            }
         </div>
-
-
         <div id="signup">
-            @using (Html.BeginForm())
+            @using (Html.BeginForm("RegisterUser", "Users", FormMethod.Post, new { id = "registration-form" }))
             {
                 <h1>Sign Up for Free</h1>
                 <div class="top-row">
@@ -64,7 +66,7 @@
                 </div>
                 <div class="field-wrap">
                     @Html.LabelFor(model => model.Password)
-                    @Html.PasswordFor(model => model.Password)
+                    @Html.PasswordFor(model => model.Password,new { id="Password_Id"})
                     @Html.ValidationMessageFor(model => model.Password)
                 </div>
                 <div class="field-wrap">
@@ -108,19 +110,21 @@
                  new SelectListItem() { Text= "Member", Value = "Member" }    }, "Select ...")
                     @Html.ValidationMessageFor(model => model.AgentorMember)
                 </div>
-                <input type="submit" value="Register" class="button button-block" onclick="Register();" />
+                <input type="submit" value="Register" class="button button-block" />
+
             }
         </div>
 
     </div>
 </div>
 
+
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script type="text/javascript">
+    
     $('#Country').change(function () {
         var countryId = $('#Country').val();
         $.ajax({
@@ -160,64 +164,65 @@
             }
         });
     });
-    function Register() {
-        var firstName = $('#FirstName').val();
-        var lastName = $('#LastName').val();
-        var password = $("#Password").val();
-        var confirmPassword = $('#ConfirmPassword').val();
-        var email = $("#Email").val();
-        var mobile = $('#Mobile').val();
-        var pincode = $('#Pincode').val();
-        var agentorMember = $('#AgentorMember option:selected').html();
-        var country = $('#Country option:selected').html();
-        var state = $('#State option:selected').html();
-        var city = $('#City option:selected').html();
-        var user = {
-            FirstName: firstName,
-            LastName: lastName,
-            Password: password,
-            ConfirmPassword: confirmPassword,
-            Email: email,
-            Mobile: mobile,
-            Pincode: pincode,
-            AgentorMember: agentorMember,
-            Country: country,
-            State: state,
-            City: city
-        };
-        var url = '/Agent/Users/RegisterUsers';
-        $.post(url, user,
-            function (data, status) {
-                if (data.Message == 'EmailIdExists') {
-                    alert('EmailIdExists');
-                }
-            });
-    };
-    function Login() {
-        debugger;
-        var email = $('#Email').val();
-        var password = $('#Password').val();
-        $.ajax({
-            url: '/Agent/Users/Login',
-            type: "GET",
-            content: "application/json; charset=utf-8",
-            crossDomain: true,
-            dataType: 'json',
-            data: { Email: email, Password: password },
-            success: function (d) {
-                if (d.SuccessMessage == 'invalid') {
-                    $('#Password').val("");
-                    $('#result').html('Invalid UserId or Password');
-                    $('#result').fadeOut(10000);
-                }
-                else if (d.SuccessMessage == 'valid') {
-                    window.location.href = d.RedirectUrl;
-                }
+    //function Register() {
+    //    var firstName = $('#FirstName').val();
+    //    var lastName = $('#LastName').val();
+    //    var password = $("#Password").val();
+    //    var confirmPassword = $('#ConfirmPassword').val();
+    //    var email = $("#Email").val();
+    //    var mobile = $('#Mobile').val();
+    //    var pincode = $('#Pincode').val();
+    //    var agentorMember = $('#AgentorMember option:selected').html();
+    //    var country = $('#Country option:selected').html();
+    //    var state = $('#State option:selected').html();
+    //    var city = $('#City option:selected').html();
+    //    var user = {
+    //        FirstName: firstName,
+    //        LastName: lastName,
+    //        Password: password,
+    //        ConfirmPassword: confirmPassword,
+    //        Email: email,
+    //        Mobile: mobile,
+    //        Pincode: pincode,
+    //        AgentorMember: agentorMember,
+    //        Country: country,
+    //        State: state,
+    //        City: city
+    //    };
+    //    var url = '/Agent/Users/RegisterUsers';
+    //    $.post(url, user,
+    //        function (data, status) {
+    //            if (data.Message == 'EmailIdExists') {
+    //                alert('EmailIdExists');
+    //            }
+    //        });
+    //};
+    //function Login() {
+    //    debugger;
+    //    var email = $('#Email').val();
+    //    var password = $('#Password').val();
+    //    var returnUrl = $('#ReturnUrl').val();
+    //    $.ajax({
+    //        url: '/Agent/Users/Login',
+    //        type: "GET",
+    //        content: "application/json; charset=utf-8",
+    //        crossDomain: true,
+    //        dataType: 'json',
+    //        data: { Email: email, Password: password, ReturnUrl: returnUrl },
+    //        success: function (d) {
+    //            if (d.SuccessMessage == 'invalid') {
+    //                $('#Password').val("");
+    //                $('#result').html('Invalid UserId or Password');
+    //                $('#result').fadeOut(10000);
+    //            }
+    //            else if (d.SuccessMessage == 'valid') {
+    //                window.location.href = d.RedirectUrl;
+    //            }
 
-            },
-            error: function (xhr, textStatus, errorThrown) { alert('error'); }
-        });
-    };
+    //        },
+    //        error: function (xhr, textStatus, errorThrown) { alert('error'); }
+    //    });
+    //};
     $('.tab a').on('click', function (e) {
 
         e.preventDefault();
@@ -232,4 +237,5 @@
         $(target).fadeIn(600);
 
     });
+    $('#Email').fadeOut(10000);
 </script>

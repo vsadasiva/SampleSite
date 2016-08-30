@@ -75,6 +75,7 @@ namespace HallsBooking.Areas.Halls.Controllers
         /// <summary>
         /// Getting the Single Hall Details.
         /// </summary>
+        [CustomAuthorize("user")]
         public ActionResult ViewHallDetails(int? id)
         {
             Hall hallDetails = db.Halls.FirstOrDefault(x=>x.HallId==id);
@@ -90,6 +91,7 @@ namespace HallsBooking.Areas.Halls.Controllers
         /// Booking the Hall
         /// </summary>
         /// <param name="id">Hall Id</param>
+        [CustomAuthorize("user")]
         public ActionResult BookHall(int id)
         {
             return View();

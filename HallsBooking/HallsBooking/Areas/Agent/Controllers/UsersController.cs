@@ -15,6 +15,7 @@ using HallsBooking.Areas.Agent.Models;
 
 namespace HallsBooking.Areas.Agent.Controllers
 {
+    [CustomException]
     public class UsersController : Controller
     {
         private SampleEntities db = new SampleEntities();
@@ -30,6 +31,7 @@ namespace HallsBooking.Areas.Agent.Controllers
         /// <summary>
         /// Display the Single UserData
         /// </summary>
+        [CustomAuthorize("user", "admin")]
         public ActionResult Details()
         {
             string id = Request["id"];
@@ -59,6 +61,12 @@ namespace HallsBooking.Areas.Agent.Controllers
         {
             List<Country> countries = db.Countries.ToList();
             ViewBag.Countries = countries;
+            ViewBag.ReturnUrl = Request["ReturnUrl"];
+            if (Session["EmailExits"]!=null)
+            {
+                ViewBag.EmailExits = Session["EmailExits"];
+                Session["EmailExits"] = null;
+            }
             return View();
         }
         /// <summary>
@@ -68,7 +76,7 @@ namespace HallsBooking.Areas.Agent.Controllers
         /// <returns></returns>
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult RegisterUsers(User user)
+        public ActionResult RegisterUser(User user)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +90,9 @@ namespace HallsBooking.Areas.Agent.Controllers
                     }
                     else
                     {
-                        return Json(new { Message = "EmailIdExists" }, JsonRequestBehavior.AllowGet);
+                        //return Json(new { Message = "EmailIdExists" }, JsonRequestBehavior.AllowGet);
+                        Session["EmailExits"] = "Email is already Exists";
+                        return RedirectToAction("RegisterUser");
                     }
                 }
             }
@@ -110,6 +120,7 @@ namespace HallsBooking.Areas.Agent.Controllers
         /// <summary>
         /// Edit page for Current User.
         /// </summary>
+        [CustomAuthorize("user", "admin")]
         public ActionResult Edit()
         {
             string id = Request["id"];
@@ -123,10 +134,11 @@ namespace HallsBooking.Areas.Agent.Controllers
                 }
                 User user = db.Users.Find(userId);
                 ViewBag.RegId = userId;
-                int countryId = db.Countries.SingleOrDefault(x => x.CountryName == user.Country).CountryId;
-                int stateId = db.States.SingleOrDefault(x => x.StateName == user.State).StateId;
-                int cityId = db.Cities.SingleOrDefault(x => x.CityName == user.City).CityId;
-                bindDropdowns(countryId, stateId, cityId);
+                //int countryId = db.Countries.SingleOrDefault(x => x.CountryName == user.Country).CountryId;
+                //int stateId = db.States.SingleOrDefault(x => x.StateName == user.State).StateId;
+                //int cityId = db.Cities.SingleOrDefault(x => x.CityName == user.City).CityId;
+
+                bindDropdowns(Convert.ToInt32(user.Country), Convert.ToInt32(user.State));
                 if (user == null)
                 {
                     return HttpNotFound();
@@ -138,33 +150,50 @@ namespace HallsBooking.Areas.Agent.Controllers
         /// <summary>
         /// Binding The DropDowns For User Selected Values.
         /// </summary>
-        private void bindDropdowns(int countryId, int stateId, int cityId)
+        private void bindDropdowns(int countryId, int stateId)
         {
             if (ViewBag.Countries == null)
             {
-                List<Country> country = HallsBooking.Areas.Agent.Models.DbContext.GetCountries();
-                ViewBag.Countries = new SelectList(country, "CountryId", "CountryName", countryId);
-                //ViewBag.Countries = HallsBooking.Areas.Agent.Models.DbContext.GetCountries();
+                ViewBag.Countries = HallsBooking.Areas.Agent.Models.DbContext.GetCountries();
             }
             if (ViewBag.States == null)
             {
                 var states = db.States.Where(x => x.CountryId == countryId).ToList();
-                ViewBag.States = new SelectList(states, "StateId", "StateName", stateId);
-                //ViewBag.States = states;
+                ViewBag.States = states;
             }
             if (ViewBag.Cities == null)
             {
                 var cities = db.Cities.Where(x => x.StateId == stateId).ToList();
-                ViewBag.Cities = new SelectList(cities, "CityId", "CityName", cityId);
-                //ViewBag.Cities = cities;
+                ViewBag.Cities = cities;
             }
         }
+        //private void bindDropdowns(int countryId, int stateId, int cityId)
+        //{
+        //    if (ViewBag.Countries == null)
+        //    {
+        //        List<Country> country = HallsBooking.Areas.Agent.Models.DbContext.GetCountries();
+        //        ViewBag.Countries = new SelectList(country, "CountryId", "CountryName", countryId);
+        //        //ViewBag.Countries = HallsBooking.Areas.Agent.Models.DbContext.GetCountries();
+        //    }
+        //    if (ViewBag.States == null)
+        //    {
+        //        var states = db.States.Where(x => x.CountryId == countryId).ToList();
+        //        ViewBag.States = new SelectList(states, "StateId", "StateName", stateId);
+        //        //ViewBag.States = states;
+        //    }
+        //    if (ViewBag.Cities == null)
+        //    {
+        //        var cities = db.Cities.Where(x => x.StateId == stateId).ToList();
+        //        ViewBag.Cities = new SelectList(cities, "CityId", "CityName", cityId);
+        //        //ViewBag.Cities = cities;
+        //    }
+        //}
         /// <summary>
         /// Update the user Edited data to database.
         /// </summary>
+       // [ValidateInput(false)]
         [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult EditUser(User obj)
+        public ActionResult Edit(User obj)
         {
             if (ModelState.IsValid)
             {
@@ -178,10 +207,12 @@ namespace HallsBooking.Areas.Agent.Controllers
                     result.Mobile = obj.Mobile;
                     result.Country = obj.Country;
                     result.State = obj.State;
+                    result.City = obj.City;
                     result.Pincode = obj.Pincode;
                     result.AgentorMember = obj.AgentorMember;
                     db.SaveChanges();
-                    return Json(new { RedirectUrl = Url.Action("Index", "Users"), SuccessMessage = "valid" }, JsonRequestBehavior.AllowGet);
+                    return RedirectToAction("Index");
+                    //return Json(new { RedirectUrl = Url.Action("Index", "Users"), SuccessMessage = "valid" }, JsonRequestBehavior.AllowGet);
                 }
             }
             return View();
@@ -189,6 +220,7 @@ namespace HallsBooking.Areas.Agent.Controllers
         /// <summary>
         /// Method for Deletion of user data..
         /// </summary>
+        [CustomAuthorize("user", "admin")]
         public ActionResult Delete(string id)
         {
             int userID = Convert.ToInt32(Constant.Decrypt(id));
@@ -221,8 +253,10 @@ namespace HallsBooking.Areas.Agent.Controllers
         /// <param name="Email"></param>
         /// <param name="Password"></param>
         /// <returns></returns>
-        public ActionResult Login(string Email, string Password)
+        [HttpPost]
+        public ActionResult Login(string Email, string Password, string ReturnUrl)
         {
+            string redirectUrl = string.Empty;
             bool isValid = db.Users.Any(x => x.Email == Email && x.Password == Password);
             if (isValid)
             {
@@ -232,17 +266,32 @@ namespace HallsBooking.Areas.Agent.Controllers
                     string uid = userid.ToString();
                     string id = Constant.Encrypt(uid);
                     Session["User"] = id;
+                    if (ReturnUrl != null)
+                    {
+                        if (Url.IsLocalUrl(ReturnUrl) && ReturnUrl.Length > 1 && ReturnUrl.StartsWith("/")
+                   && !ReturnUrl.StartsWith("//") && !ReturnUrl.StartsWith("/\\"))
+                        {
+                            redirectUrl = ReturnUrl;
+                        }
+                        else
+                        {
+                            redirectUrl = "/Home/Home";
+                        }
+                    }
                     //FormsAuthentication.SetAuthCookie(Email, true);
                 }
-                return Json(new { RedirectUrl = "/Home/Home", SuccessMessage = "valid" }, JsonRequestBehavior.AllowGet);
+                return Redirect(redirectUrl);
+                //return Json(new { RedirectUrl = redirectUrl, SuccessMessage = "valid" }, JsonRequestBehavior.AllowGet);
             }
             else
             {
+                //Url.Action("RegisterUser", "Users")
+                redirectUrl = "/Users/RegisterUser";
                 ViewBag.InValidUser = "Invalid UserId or Password";
-                return Json(new { RedirectUrl = Url.Action("RegisterUser", "Users"), SuccessMessage = "invalid" }, JsonRequestBehavior.AllowGet);
+                return Redirect(redirectUrl);
+                //return Json(new { RedirectUrl = redirectUrl, SuccessMessage = "invalid" }, JsonRequestBehavior.AllowGet);
             }
         }
-       // RedirectUrl = Url.Action("Index", "Users")
         /// <summary>
         /// Method for Logout The user..
         /// </summary>
@@ -271,7 +320,7 @@ namespace HallsBooking.Areas.Agent.Controllers
             bool result = db.Users.Any(x => x.Email == Email);
             if (!result)
             {
-                ViewBag.Result= "Email does not exist";
+                ViewBag.Result = "Email does not exist";
                 return View();
             }
             else
@@ -359,7 +408,7 @@ namespace HallsBooking.Areas.Agent.Controllers
             }
             base.Dispose(disposing);
         }
-        [CustomAuthorize("user","admin")]
+        [CustomAuthorize("user", "admin")]
         public ActionResult ChangePassword()
         {
             return View();
@@ -383,7 +432,6 @@ namespace HallsBooking.Areas.Agent.Controllers
                 return View();
             }
         }
-       // [CustomAuthorize("user")]
         public ActionResult UnAuthorize()
         {
             return View();
