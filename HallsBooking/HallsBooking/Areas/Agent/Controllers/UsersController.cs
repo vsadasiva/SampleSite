@@ -62,7 +62,7 @@ namespace HallsBooking.Areas.Agent.Controllers
             List<Country> countries = db.Countries.ToList();
             ViewBag.Countries = countries;
             ViewBag.ReturnUrl = Request["ReturnUrl"];
-            if (Session["EmailExits"]!=null)
+            if (Session["EmailExits"] != null)
             {
                 ViewBag.EmailExits = Session["EmailExits"];
                 Session["EmailExits"] = null;
@@ -266,7 +266,7 @@ namespace HallsBooking.Areas.Agent.Controllers
                     string uid = userid.ToString();
                     string id = Constant.Encrypt(uid);
                     Session["User"] = id;
-                    if (ReturnUrl != null)
+                    if (ReturnUrl != null || ReturnUrl != "")
                     {
                         if (Url.IsLocalUrl(ReturnUrl) && ReturnUrl.Length > 1 && ReturnUrl.StartsWith("/")
                    && !ReturnUrl.StartsWith("//") && !ReturnUrl.StartsWith("/\\"))
