@@ -266,7 +266,7 @@ namespace HallsBooking.Areas.Agent.Controllers
                     string uid = userid.ToString();
                     string id = Constant.Encrypt(uid);
                     Session["User"] = id;
-                    if (ReturnUrl != null || ReturnUrl != "")
+                    if (!string.IsNullOrEmpty(ReturnUrl))
                     {
                         if (Url.IsLocalUrl(ReturnUrl) && ReturnUrl.Length > 1 && ReturnUrl.StartsWith("/")
                    && !ReturnUrl.StartsWith("//") && !ReturnUrl.StartsWith("/\\"))
@@ -278,6 +278,10 @@ namespace HallsBooking.Areas.Agent.Controllers
                             redirectUrl = "/Home/Home";
                         }
                     }
+                    else
+                    {
+                        redirectUrl = "/Home/Home";
+                    }
                     //FormsAuthentication.SetAuthCookie(Email, true);
                 }
                 return Redirect(redirectUrl);
@@ -285,7 +289,6 @@ namespace HallsBooking.Areas.Agent.Controllers
             }
             else
             {
-                //Url.Action("RegisterUser", "Users")
                 redirectUrl = "/Users/RegisterUser";
                 ViewBag.InValidUser = "Invalid UserId or Password";
                 return Redirect(redirectUrl);
@@ -376,6 +379,11 @@ namespace HallsBooking.Areas.Agent.Controllers
                 {
                     ViewBag.ResetPasswordLinkExpires = "Reset Password Link Expired";
                 }
+            }
+            else
+            {
+                Session["Error"] = "There is Some Error. While Processing your Request";
+                return View("Error");
             }
             return View();
         }

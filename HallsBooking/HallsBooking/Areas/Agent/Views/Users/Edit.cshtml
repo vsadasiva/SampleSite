@@ -95,56 +95,63 @@
             </div>
         </div>
     }
+    <link href="~/Content/ValidationStyles.css" rel="stylesheet" />
     <script src="~/Scripts/RegistrationFormValidation.js"></script>
-
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script type="text/javascript">
-        //$(document).ready(function () {
-        //    var items = '<option>Please Select a Country</option>';
-        //    $('#Country').html(items);
-        //});
         $('#Country').change(function () {
             var countryId = $('#Country').val();
-            $.ajax({
-                url: '/Agent/Users/BindStates',
-                type: "Get",
-                dataType: "JSON",
-                data: { CountryId: countryId },
-                success: function (states) {
-                    var items = '<option>Please Select a State</option>';
-                    $.each(states, function (i, state) {
-                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
-                    });
-                    $('#State').html(items);
-                    $('#City').html('<option>Please Select a City</option>');
-                },
-                Error: function (error) {
-                    alert("There is some Error")
-                }
-            });
+            if (countryId == null || countryId == "") {
+                $('#State').html('<option value="">Please Select a State</option>');
+                $('#City').html('<option value="">Please Select a City</option>');
+            }
+            else {
+                $.ajax({
+                    url: '/Agent/Users/BindStates',
+                    type: "Get",
+                    dataType: "JSON",
+                    data: { CountryId: countryId },
+                    success: function (states) {
+                        var items = '<option value="">Please Select a State</option>';
+                        $.each(states, function (i, state) {
+                            items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                        });
+                        $('#State').html(items);
+                        $('#City').html('<option value="">Please Select a City</option>');
+                    },
+                    Error: function (error) {
+                        alert("There is some Error")
+                    }
+                });
+            }
         });
         $('#State').change(function () {
             var stateId = $('#State').val();
-            $.ajax({
-                url: '/Agent/Users/BindCites',
-                type: "Get",
-                dataType: "JSON",
-                data: { StateId: stateId },
-                success: function (cites) {
-                    var items = '<option>Please Select a City</option>';
-                    $.each(cites, function (i, cite) {
-                        items += "<option value='" + cite.Value + "'>" + cite.Text + "</option>";
-                    });
-                    $('#City').html(items);
-                },
-                Error: function (error) {
-                    alert("There is some Error")
-                }
-            });
+            if (stateId == "") {
+                $('#City').html('<option value="">Please Select a City</option>');
+            }
+            else {
+                $.ajax({
+                    url: '/Agent/Users/BindCites',
+                    type: "Get",
+                    dataType: "JSON",
+                    data: { StateId: stateId },
+                    success: function (cites) {
+                        var items = '<option value="">Please Select a City</option>';
+                        $.each(cites, function (i, cite) {
+                            items += "<option value='" + cite.Value + "'>" + cite.Text + "</option>";
+                        });
+                        $('#City').html(items);
+                    },
+                    Error: function (error) {
+                        alert("There is some Error")
+                    }
+                });
+            }
         });
         @*function Update() {
             debugger;

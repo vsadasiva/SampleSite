@@ -22,7 +22,7 @@
     </ul>
     <div class="tab-content">
         <div id="login">
-            @using (Html.BeginForm("Login", "Users", FormMethod.Post, new { id = "registration-form1" }))
+            @using (Html.BeginForm("Login", "Users", FormMethod.Post, new { id = "login-form" }))
             {
 
                 <h1>Welcome Back!</h1>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="field-wrap">
                     @Html.LabelFor(model => model.Password)
-                    @Html.PasswordFor(model => model.Password,new { id="Password_Id"})
+                    @Html.PasswordFor(model => model.Password, new { id = "Password_Id" })
                     @Html.ValidationMessageFor(model => model.Password)
                 </div>
                 <div class="field-wrap">
@@ -118,51 +118,62 @@
     </div>
 </div>
 
-
+<link href="~/Content/ValidationStyles.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script type="text/javascript">
-    
+
     $('#Country').change(function () {
         var countryId = $('#Country').val();
-        $.ajax({
-            url: '/Agent/Users/BindStates',
-            type: "Get",
-            dataType: "JSON",
-            data: { CountryId: countryId },
-            success: function (states) {
-                var items = '<option>Please Select a State</option>';
-                $.each(states, function (i, state) {
-                    items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
-                });
-                $('#State').html(items);
-                $('#City').html('<option>Please Select a City</option>');
-            },
-            Error: function (error) {
-                alert("There is some Error")
-            }
-        });
+        if (countryId == null || countryId == "") {
+            $('#State').html('<option value="">Please Select a State</option>');
+            $('#City').html('<option value="">Please Select a City</option>');
+        }
+        else {
+            $.ajax({
+                url: '/Agent/Users/BindStates',
+                type: "Get",
+                dataType: "JSON",
+                data: { CountryId: countryId },
+                success: function (states) {
+                    var items = '<option value="">Please Select a State</option>';
+                    $.each(states, function (i, state) {
+                        items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                    });
+                    $('#State').html(items);
+                    $('#City').html('<option value="">Please Select a City</option>');
+                },
+                Error: function (error) {
+                    alert("There is some Error")
+                }
+            });
+        }
     });
     $('#State').change(function () {
         var stateId = $('#State').val();
-        $.ajax({
-            url: '/Agent/Users/BindCites',
-            type: "Get",
-            dataType: "JSON",
-            data: { StateId: stateId },
-            success: function (cites) {
-                var items = '<option>Please Select a City</option>';
-                $.each(cites, function (i, cite) {
-                    items += "<option value='" + cite.Value + "'>" + cite.Text + "</option>";
-                });
-                $('#City').html(items);
-            },
-            Error: function (error) {
-                alert("There is some Error")
-            }
-        });
+        if (stateId == "") {
+            $('#City').html('<option value="">Please Select a City</option>');
+        }
+        else {
+            $.ajax({
+                url: '/Agent/Users/BindCites',
+                type: "Get",
+                dataType: "JSON",
+                data: { StateId: stateId },
+                success: function (cites) {
+                    var items = '<option value="">Please Select a City</option>';
+                    $.each(cites, function (i, cite) {
+                        items += "<option value='" + cite.Value + "'>" + cite.Text + "</option>";
+                    });
+                    $('#City').html(items);
+                },
+                Error: function (error) {
+                    alert("There is some Error")
+                }
+            });
+        }
     });
     //function Register() {
     //    var firstName = $('#FirstName').val();
@@ -223,19 +234,21 @@
     //        error: function (xhr, textStatus, errorThrown) { alert('error'); }
     //    });
     //};
-    $('.tab a').on('click', function (e) {
+    $(document).ready(function () {
 
-        e.preventDefault();
+        $('.tab a').on('click', function (e) {
+            $(this).parent().addClass('active');
+            $(this).parent().siblings().removeClass('active');
 
-        $(this).parent().addClass('active');
-        $(this).parent().siblings().removeClass('active');
+            target = $(this).attr('href');
 
-        target = $(this).attr('href');
+            $('.tab-content > div').not(target).hide();
 
-        $('.tab-content > div').not(target).hide();
+            e.preventDefault();
 
-        $(target).fadeIn(600);
+            $(target).fadeIn(600);
 
+        });
     });
     $('#Email').fadeOut(10000);
 </script>
