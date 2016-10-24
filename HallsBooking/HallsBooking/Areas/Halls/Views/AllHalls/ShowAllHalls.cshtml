@@ -1,0 +1,114 @@
+﻿@using HallsBooking.Areas.Halls
+@model IEnumerable<Hall>
+@{
+    ViewBag.Title = "ShowAllHalls";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>ShowAllHalls</h2>
+    @foreach (var halls in Model)
+    {
+        <h3>@Html.ActionLink(halls.HallName, "ViewHalldetails", new { id = halls.HallId })</h3>
+        <a href='@Url.Action("ViewHallDetails",new { id=halls.HallId})'> <img src="/Home/RetrieveImage/@halls.HallId" height="400px" width="400px" style="float:left;"></a>
+
+    }*@
+
+
+
+<section id="banner" data-video="images/banner">
+    <div class="inner">
+        <header>
+            <h1>Full Motion</h1>
+            <p>
+                A responsive video gallery template with a functional lightbox<br />
+                designed by <a href="https://templated.co/">Templated</a> and released under the Creative Commons License.
+            </p>
+        </header>
+        <a href="#main" class="more" style="align-self:center;">Learn More</a>
+    </div>
+</section>
+<!-- Main -->
+<div id="main">
+    <div class="inner">
+        <!-- Boxes -->
+        <div class="thumbnails">
+            @foreach (var halls in Model)
+            {
+                <div class="box">
+                    <a href='@Url.Action("ViewHallDetails",new { id=halls.HallId})' class="image fit"> <img src="/Home/RetrieveImage/@halls.HallId"></a>
+                    <div class="inner">
+                        <h3>@halls.HallName</h3>
+                        <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                        <h3>@Html.ActionLink("View Details", "ViewHalldetails", new { id = halls.HallId },new { @class="button fit" })</h3>
+                        @*<a href="https://youtu.be/s6zR2T9vn2c" class="button fit" data-poptrox="youtube,800x400">Watch</a>*@
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@*<link href="~/Areas/Halls/Styles/font-awesome.min.css" rel="stylesheet" />*@
+<link href="~/Areas/Halls/Styles/main.css" rel="stylesheet" />
+<script src="~/Areas/Halls/Scripts/jquery.min.js"></script>
+<script src="~/Areas/Halls/Scripts/jquery.poptrox.min.js"></script>
+<script src="~/Areas/Halls/Scripts/jquery.scrolly.min.js"></script>
+<script src="~/Areas/Halls/Scripts/main.js"></script>
+<script src="~/Areas/Halls/Scripts/skel.min.js"></script>
+<script src="~/Areas/Halls/Scripts/util.js"></script>
+<img src="~/Images/spinners.gif" id="loading" /><br />
+<input type="button" id="loadMore" value="ShowMore" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var loading = $("#loading");
+        loading.hide();
+    })
+    $(function () {
+        var loadCount = 1;
+        var loading = $("#loading");
+        $("#loadMore").on("click", function (e) {
+
+            e.preventDefault();
+
+            $(document).on({
+
+                ajaxStart: function () {
+                    loading.show();
+                },
+                ajaxStop: function () {
+                    loading.hide();
+                }
+            });
+
+            var url = "/Halls/AllHalls/ShowMoreHalls/";
+            $.ajax({
+                url: url,
+                data: { size: loadCount * 2 },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+
+                    if (data.length !== 0) {
+                        $(data.ModelString).insertBefore("#loadMore").hide().fadeIn(2000);
+                    }
+
+                    var ajaxModelCount = data.ModelCount - (loadCount * 2);
+                    if (ajaxModelCount <= 0) {
+                        $("#loadMore").hide().fadeOut(2000);
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert("message : \n" +
+                        "An error occurred, for more info check the js console" +
+                        "\n status : \n" + status + " \n error : \n" + error);
+                }
+            });
+
+            loadCount = loadCount + 1;
+        });
+    });
+</script>

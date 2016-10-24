@@ -1,0 +1,54 @@
+﻿@using HallsBooking.Areas.Halls
+@model Hall
+@{
+    ViewBag.Title = "ViewHallDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3>@Model.HallName</h3>
+<img src="/Home/RetrieveImage/@Model.HallId" style="height:400px;width:960px;">
+<table border="1" style="text-align:center;">
+    <caption style="text-align:center;color:red;font-size:30px;background-color:darkgrey;">Hall Details</caption>
+    <tr>
+        <td>Hall Name</td>
+        <td>@Model.HallName</td>
+    </tr>
+    <tr>
+        <td>Cost With Decoration</td>
+        <td>@Model.CostWithDecaration</td>
+    </tr>
+    <tr>
+        <td>Cost With out Decoration</td>
+        <td>@Model.CostWithOutDecaration</td>
+    </tr>
+    <tr>
+        <td>Address</td>
+        <td>@Model.Address</td>
+    </tr>
+    <tr>
+        <td>LandMark</td>
+        <td>@Model.LandMark</td>
+    </tr>
+    <tr>
+        <td>Phone</td>
+        <td>@Model.Phone</td>
+    </tr>
+    <tr>
+        <td>Mobile</td>
+        <td>@Model.Mobile</td>
+    </tr>
+    <tr>
+        <td>Country</td>
+        <td>@ViewBag.CountryName</td>
+    </tr>
+    <tr>
+        <td>State</td>
+        <td>@ViewBag.StateName</td>
+    </tr>
+    <tr>
+        <td>City</td>
+        <td>@ViewBag.CityName</td>
+    </tr>
+</table>
+<div style="height:100px;width:300px;text-align:center;font-size:30px;align-content:center;margin-left:340px;">
+    @Html.ActionLink("Book Now", "BookHall", "AllHalls", new { @id = Model.HallId }, null)
+</div>

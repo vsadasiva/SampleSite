@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SampleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SampleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="BookingDetails">
           <Key>
             <PropertyRef Name="BookingId" />
@@ -19,6 +19,10 @@
           <Property Name="UserId" Type="int" />
           <Property Name="UserName" Type="varchar" MaxLength="100" />
           <Property Name="BookedOn" Type="datetime" />
+          <Property Name="TotalCost" Type="money" />
+          <Property Name="ContactPersonName" Type="money" />
+          <Property Name="PhoneNumber1" Type="money" />
+          <Property Name="PhoneNumber2" Type="money" />
         </EntityType>
         <EntityType Name="Cities">
           <Key>
@@ -92,6 +96,7 @@
           <Property Name="Pincode" Type="varchar" MaxLength="50" />
           <Property Name="AgentorMember" Type="char" MaxLength="10" />
           <Property Name="IsActive" Type="bit" />
+          <Property Name="Role" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="SampleModelStoreContainer">
           <EntitySet Name="BookingDetails" EntityType="Self.BookingDetails" Schema="dbo" store:Type="Tables" />
@@ -102,8 +107,7 @@
           <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SampleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -121,6 +125,10 @@
           <Property Name="UserId" Type="Int32" />
           <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="BookedOn" Type="DateTime" Precision="3" />
+          <Property Name="TotalCost" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ContactPersonName" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PhoneNumber1" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PhoneNumber2" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -194,6 +202,7 @@
           <Property Name="Pincode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AgentorMember" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="SampleEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="BookingDetails" EntityType="Self.BookingDetail" />
@@ -213,6 +222,10 @@
           <EntitySetMapping Name="BookingDetails">
             <EntityTypeMapping TypeName="SampleModel.BookingDetail">
               <MappingFragment StoreEntitySet="BookingDetails">
+                <ScalarProperty Name="PhoneNumber2" ColumnName="PhoneNumber2" />
+                <ScalarProperty Name="PhoneNumber1" ColumnName="PhoneNumber1" />
+                <ScalarProperty Name="ContactPersonName" ColumnName="ContactPersonName" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
                 <ScalarProperty Name="BookingId" ColumnName="BookingId" />
                 <ScalarProperty Name="HallId" ColumnName="HallId" />
                 <ScalarProperty Name="HallName" ColumnName="HallName" />
@@ -289,6 +302,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="SampleModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="RegId" ColumnName="RegId" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />

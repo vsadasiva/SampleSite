@@ -11,7 +11,9 @@ namespace HallsBooking
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
+    using System.Web;
 
     public partial class Hall
     {
@@ -33,5 +35,6 @@ namespace HallsBooking
         public string CreatedBy { get; set; }
         public HallImage HallImage { get; set; }
         public IQueryable<HallImage> HallImages { get; set; }
+        public IEnumerable<HttpPostedFileBase> File { get; set; }  //2nd change
     }
 }

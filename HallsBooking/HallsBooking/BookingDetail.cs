@@ -24,5 +24,9 @@ namespace HallsBooking
         public Nullable<int> UserId { get; set; }
         public string UserName { get; set; }
         public Nullable<System.DateTime> BookedOn { get; set; }
+        public Nullable<decimal> TotalCost { get; set; }
+        public Nullable<decimal> ContactPersonName { get; set; }
+        public Nullable<decimal> PhoneNumber1 { get; set; }
+        public Nullable<decimal> PhoneNumber2 { get; set; }
     }
 }

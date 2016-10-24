@@ -8,7 +8,7 @@
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DC9408F4-D783-484E-9905-A012D5A199BB}</ProjectGuid>
-    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HallsBooking</RootNamespace>
@@ -19,6 +19,13 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -87,28 +94,117 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Agent\Content\normalize.css" />
+    <Content Include="Areas\Agent\Content\style.css" />
+    <Content Include="Areas\Agent\Scripts\index.js" />
+    <Content Include="Areas\Halls\Content\DataTable.css" />
+    <Content Include="Areas\Halls\Scripts\DataTable.js" />
+    <Content Include="Areas\Halls\Scripts\jquery.min.js" />
+    <Content Include="Areas\Halls\Scripts\jquery.poptrox.min.js" />
+    <Content Include="Areas\Halls\Scripts\jquery.scrolly.min.js" />
+    <Content Include="Areas\Halls\Scripts\main.js" />
+    <Content Include="Areas\Halls\Scripts\skel.min.js" />
+    <Content Include="Areas\Halls\Scripts\util.js" />
+    <Content Include="Areas\Halls\Styles\font-awesome.min.css" />
+    <Content Include="Areas\Halls\Styles\main.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\Styles\forms.css" />
+    <Content Include="Content\Styles\gallery.css" />
+    <Content Include="Content\Styles\homepage.css" />
+    <Content Include="Content\Styles\js-image-slider.css" />
+    <Content Include="Content\Styles\layout.css" />
+    <Content Include="Content\Styles\navi.css" />
+    <Content Include="Content\Styles\portfolio.css" />
     <Content Include="Content\Styles\stylesheet.css" />
+    <Content Include="Content\Styles\tables.css" />
+    <Content Include="Content\ValidationStyles.css" />
     <Content Include="Global.asax" />
+    <EntityDeploy Include="Halls.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Halls.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Halls.edmx.diagram">
+      <DependentUpon>Halls.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Halls\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Halls\Views\Shared\_Layout.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Areas\Halls\Views\AllHalls\ShowAllHalls.cshtml" />
+    <Content Include="Areas\Halls\Views\Shared\_LoadMoreHalls.cshtml" />
+    <Content Include="Areas\Halls\Views\AllHalls\ViewHallDetails.cshtml" />
+    <Content Include="Areas\Halls\Views\AllHalls\BookHall.cshtml" />
+    <Content Include="Areas\Agent\Views\Users\UnAuthorize.cshtml" />
+    <Content Include="Areas\Agent\Views\Users\ChangePassword.cshtml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Halls.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Halls.edmx</DependentUpon>
+      <LastGenOutput>Halls.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Halls.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Halls.edmx</DependentUpon>
+      <LastGenOutput>Halls.cs</LastGenOutput>
+    </Content>
+    <Content Include="Images\spinners.gif" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery.cycle.min.js" />
+    <Content Include="Scripts\jquery.defaultvalue.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.scrollTo-min.js" />
+    <Content Include="Scripts\jquery.ui.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js-image-slider.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\RegistrationFormValidation.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Agent\AgentAreaRegistration.cs" />
+    <Compile Include="Areas\Agent\Constants\Constant.cs" />
+    <Compile Include="Areas\Agent\Controllers\BookHallController.cs" />
     <Compile Include="Areas\Agent\Controllers\HallsRegController.cs" />
+    <Compile Include="Areas\Agent\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Agent\Models\BookHall.cs" />
+    <Compile Include="Areas\Agent\Models\ConstantModel.cs" />
+    <Compile Include="Areas\Agent\Models\DbContext.cs" />
+    <Compile Include="Areas\Agent\Models\ImageModel.cs" />
+    <Compile Include="Areas\Halls\Controllers\AllHallsController.cs" />
+    <Compile Include="Areas\Halls\HallsAreaRegistration.cs" />
+    <Compile Include="Areas\Halls\Models\HallModel.cs" />
     <Compile Include="BookingDetail.cs">
       <DependentUpon>Halls.tt</DependentUpon>
     </Compile>
     <Compile Include="City.cs">
       <DependentUpon>Halls.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Country.cs">
       <DependentUpon>Halls.tt</DependentUpon>
     </Compile>
+    <Compile Include="Filters\CustomAuthorize.cs" />
+    <Compile Include="Filters\CustomException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hall.cs">
+      <DependentUpon>Halls.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HallImage.cs">
       <DependentUpon>Halls.tt</DependentUpon>
     </Compile>
     <Compile Include="Halls.Context.cs">
@@ -139,25 +235,30 @@
     <Content Include="packages.config" />
     <Content Include="Areas\Agent\Views\Web.config" />
     <Content Include="Areas\Admin\Views\Web.config" />
-    <EntityDeploy Include="Halls.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Halls.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Halls.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Halls.edmx</DependentUpon>
-      <LastGenOutput>Halls.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Halls.edmx.diagram">
-      <DependentUpon>Halls.edmx</DependentUpon>
-    </Content>
-    <Content Include="Halls.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Halls.edmx</DependentUpon>
-      <LastGenOutput>Halls.cs</LastGenOutput>
-    </Content>
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Agent\Views\HallsReg\HallReg.cshtml" />
+    <Content Include="Areas\Halls\Views\AllHalls\Halls.cshtml" />
+    <Content Include="Areas\Halls\Views\AllHalls\HallsDetails.cshtml" />
+    <Content Include="Areas\Halls\Views\web.config" />
+    <Content Include="Areas\Agent\Views\BookHall\BookHall.cshtml" />
+    <Content Include="Areas\Agent\Views\ChangePassword\ChangePassword.cshtml" />
+    <Content Include="Areas\Agent\Views\Users\Delete.cshtml" />
+    <Content Include="Areas\Agent\Views\Users\Details.cshtml" />
+    <Content Include="Areas\Agent\Views\Users\Edit.cshtml" />
+    <Content Include="Areas\Agent\Views\Users\ForgottenPassword.cshtml" />
+    <Content Include="Areas\Agent\Views\Users\Index.cshtml" />
+    <Content Include="Areas\Agent\Views\Users\RegisterUser.cshtml" />
+    <Content Include="Areas\Agent\Views\Users\ResetPassword.cshtml" />
+    <Content Include="Areas\Agent\Views\HallsReg\DeleteHall.cshtml" />
+    <Content Include="Areas\Agent\Views\HallsReg\HallDetailsEdit.cshtml" />
+    <Content Include="Areas\Agent\Views\HallsReg\HallRegistration.cshtml" />
+    <Content Include="Areas\Agent\Views\HallsReg\HallsDetails.cshtml" />
+    <Content Include="Areas\Agent\Views\HallsReg\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\ChangePassword\ChangePassword.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -170,9 +271,7 @@
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Areas\Agent\Models\" />
     <Folder Include="Areas\Agent\Views\Shared\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

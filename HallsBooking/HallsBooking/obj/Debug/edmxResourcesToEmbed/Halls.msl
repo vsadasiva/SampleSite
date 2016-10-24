@@ -4,6 +4,10 @@
     <EntitySetMapping Name="BookingDetails">
       <EntityTypeMapping TypeName="SampleModel.BookingDetail">
         <MappingFragment StoreEntitySet="BookingDetails">
+          <ScalarProperty Name="PhoneNumber2" ColumnName="PhoneNumber2" />
+          <ScalarProperty Name="PhoneNumber1" ColumnName="PhoneNumber1" />
+          <ScalarProperty Name="ContactPersonName" ColumnName="ContactPersonName" />
+          <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
           <ScalarProperty Name="BookingId" ColumnName="BookingId" />
           <ScalarProperty Name="HallId" ColumnName="HallId" />
           <ScalarProperty Name="HallName" ColumnName="HallName" />
@@ -31,6 +35,18 @@
         <MappingFragment StoreEntitySet="Countries">
           <ScalarProperty Name="CountryId" ColumnName="CountryId" />
           <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HallImages">
+      <EntityTypeMapping TypeName="SampleModel.HallImage">
+        <MappingFragment StoreEntitySet="HallImages">
+          <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+          <ScalarProperty Name="ImageFile" ColumnName="ImageFile" />
+          <ScalarProperty Name="HallId" ColumnName="HallId" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -68,6 +84,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="SampleModel.User">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Role" ColumnName="Role" />
           <ScalarProperty Name="RegId" ColumnName="RegId" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />

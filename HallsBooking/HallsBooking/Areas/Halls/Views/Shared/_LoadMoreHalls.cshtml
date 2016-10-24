@@ -1,0 +1,26 @@
+﻿@using HallsBooking.Areas.Halls
+@model IEnumerable<Hall>
+@*@foreach (var halls in Model)
+    {
+        <h3>@Html.ActionLink(halls.HallName, "ViewHalldetails", new { id = halls.HallId })</h3>
+        <a href='@Url.Action("ViewHallDetails",new { id=halls.HallId})'>
+            <img src="/Home/RetrieveImage/@halls.HallId" height="400px" width="400px" style="float:left;">
+        </a>
+
+
+    }*@
+<div class="thumbnails">
+    @foreach (var halls in Model)
+            {
+        <div class="box">
+            <a href='@Url.Action("ViewHallDetails",new { id=halls.HallId})' class="image fit"> <img src="/Home/RetrieveImage/@halls.HallId"></a>
+            <div class="inner">
+                <h3>@halls.HallName</h3>
+                <p>Interdum amet accumsan placerat commodo ut amet aliquam blandit nunc tempor lobortis nunc non. Mi accumsan.</p>
+                <h3>@Html.ActionLink("View Details", "ViewHalldetails", new { id = halls.HallId }, new { @class = "button fit" })</h3>
+                @*<a href="https://youtu.be/s6zR2T9vn2c" class="button fit" data-poptrox="youtube,800x400">Watch</a>*@
+            </div>
+        </div>
+    }
+</div>
+

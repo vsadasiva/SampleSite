@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Error";
+}
+@{
+    if (Session["Error"] != null)
+    {
+        <h3 style="color:red;"> @Session["Error"]</h3>
+    }
+    else
+    {
+        <h2 style="color:red;"> 404 : Page Not Found </h2>
+    }
+}
